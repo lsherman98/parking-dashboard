@@ -41,7 +41,7 @@ export function DataTableRowActions() {
               View Photos
             </DropdownMenuItem>
           </DialogTrigger>
-          <DialogContent className='h-[750px] min-w-[800px] overflow-y-auto sm:max-w-xl'>
+          <DialogContent className='min-w-[800px] sm:max-w-xl'>
             <DialogHeader>
               <DialogTitle>Violation Photos</DialogTitle>
               <DialogDescription>
@@ -96,7 +96,7 @@ export function DataTableRowActions() {
                 </div>
               </div>
             </div>
-            <DialogFooter className='sm:justify-start'>
+            <DialogFooter className='sm:justify-end'>
               <DialogClose asChild>
                 <Button type='button' variant='secondary'>
                   Close
