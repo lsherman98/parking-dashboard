@@ -147,3 +147,4 @@
 }
 
 .dollar-sign .tooltip-value::before { content:"$"; }
+.percent-sign .tooltip-value::after { content:"%"; }

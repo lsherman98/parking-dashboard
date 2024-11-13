@@ -1,6 +1,7 @@
+import { Status } from '@/types'
 import { IconCircleCheck, IconCircleX, IconSend, IconSendOff } from '@tabler/icons-react'
 
-export const statuses = [
+export const statuses: Status[] = [
   {
     value: 'paid',
     label: 'Paid',
