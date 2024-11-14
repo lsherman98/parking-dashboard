@@ -8,6 +8,12 @@ import DailyOccupancyChart from "./daily-occupancy-chart";
 
 export default function DailyStats() {
     const [currentTab, setCurrentTab] = useState("bookings");
+    const [dayRevenueTotal, setDayRevenueTotal] = useState(312);
+    const [dayBookingsTotal, setDayBookingsTotal] = useState(15);
+    const [dayViolationCount, setDayViolationCount] = useState(2);
+    const [parkingSpotsTotal, setParkingSpotsTotal] = useState(26);
+    const [activeParkingSpotsTotal, setActiveParkingSpotsTotal] = useState(15)
+
 
     return (
       <Card className="h-[305px]">
@@ -38,7 +44,7 @@ export default function DailyStats() {
                   <div>
                     <p className="text-sm font-medium leading-none">Revenue</p>
                   </div>
-                  <div className="text-sm font-medium">$312</div>
+                  <div className="text-sm font-medium">${dayRevenueTotal}</div>
                 </div>
               </Card>
               <Card className="w-40 px-4 py-2">
@@ -46,7 +52,7 @@ export default function DailyStats() {
                   <div>
                     <p className="text-sm font-medium leading-none">Bookings</p>
                   </div>
-                  <div className="text-sm font-medium">28</div>
+                  <div className="text-sm font-medium">{dayBookingsTotal}</div>
                 </div>
               </Card>
               <Card className="w-40 px-4 py-2">
@@ -54,7 +60,7 @@ export default function DailyStats() {
                   <div>
                     <p className="text-sm font-medium leading-none">Violations</p>
                   </div>
-                  <div className="text-sm font-medium">7</div>
+                  <div className="text-sm font-medium">{dayViolationCount}</div>
                 </div>
               </Card>
             </div>
@@ -71,7 +77,7 @@ export default function DailyStats() {
                   />
                   <div className="mt-1 flex justify-between">
                     <Label className="text-xs text-muted-foreground">Active Parking Sessions</Label>
-                    <Label className="text-xs text-muted-foreground">15/26</Label>
+                    <Label className="text-xs text-muted-foreground">{activeParkingSpotsTotal}/{parkingSpotsTotal}</Label>
                   </div>
                 </div>
               </div>

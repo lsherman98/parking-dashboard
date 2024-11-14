@@ -23,32 +23,16 @@ const getColumnHeader = (column: string) => {
       return 'Status'
     case 'date':
       return 'Date'
-    case 'location':
-      return 'Location'
-    case 'transaction_id':
-      return 'Transaction ID'
+    case 'session_start':
+      return 'Session Start'
+    case 'session_end':
+      return 'Session End'
     case 'license_plate':
       return 'License Plate'
-    case 'email':
-      return 'Email'
-    case 'cellphone':
-      return 'Cellphone'
-    case 'name':
-      return 'Name'
-    case 'base_rate':
-      return 'Base Rate'
-    case 'tax':
-      return 'Tax'
-    case 'city_tax':
-      return 'City Tax'
-    case 'county_tax':
-      return 'County Tax'
-    case 'service_fee':
-      return 'Service Fee'
-    case 'payment_gateway_fee':
-      return 'Processing Fee'
-    case 'total':
-      return 'Total'
+    case 'ticket_amount':
+      return 'Ticket Amount'
+    case 'transaction_id':
+      return 'Transaction ID'
   }
 }
 

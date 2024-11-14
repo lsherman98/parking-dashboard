@@ -9,11 +9,6 @@ export type Status = {
 
 export type PeriodFilter = "week" | "month" | "three_month" | "year" | "range";
 
-export type LocationItem = {
-  label: string;
-  value: string;
-};
-
 export type DashboardToolbarProps = {
   locationFilter: string[];
   setLocationFilter: (value: string[]) => void;
@@ -27,7 +22,42 @@ export type DashboardToolbarProps = {
   setRangeFilter: (value: DateRange | undefined) => void;
   periodFilter: PeriodFilter;
   setPeriodFilter: (value: PeriodFilter) => void;
-  locations: LocationItem[];
 };
 
+export type DashboardChartProps = {
+  selectedWeek: string;
+  selectedMonth: string;
+  selectedYear: string;
+  selectedRange: DateRange | undefined;
+  period: PeriodFilter;
+};
+
+export type DailyBookingItem = {
+  hour: string;
+  bookings: number;
+};
+
+export type DailyOccupancyItem = {
+  hour: string;
+  occupancy: number;
+};
+
+export type BookingItem = {
+  date: string;
+  total: number;
+};
+
+export type RevenueItem = {
+  date: string;
+  total: number;
+};
+
+export type RecentTransaction = {
+  licensePlate: string;
+  amount: number;
+  duration: string;
+  date: string;
+  time: string;
+  location: string;
+};
 

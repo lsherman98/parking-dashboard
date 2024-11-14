@@ -7,17 +7,11 @@ import { TransactionsTable } from "./components/transactions-table";
 import DashboardToolbar from "./components/dashboard-toolbar";
 import CardStats from "./components/card-stats";
 import DailyStats from "./components/daily-stats";
-import { DashboardToolbarProps, PeriodFilter} from "@/types";
-import { locations, weeks } from "@/data";
-import { DashboardChartProps } from "./types";
+import { DashboardChartProps, DashboardToolbarProps, PeriodFilter} from "@/types";
+import { currentMonth, currentWeek, currentYear, recentTransactions } from "@/data";
 import { DateRange } from "react-day-picker";
 
 export default function Dashboard() {
-  const currentMonth = new Date().toLocaleString("default", { month: "long" });
-  const currentYear = new Date().getFullYear().toString();
-  const currentWeekIndex = Math.min(Math.floor(new Date().getDate() / 7), 3);
-  const currentWeek = weeks[currentWeekIndex];
-
   const capitalizeString = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
@@ -42,7 +36,6 @@ export default function Dashboard() {
     setRangeFilter,
     periodFilter,
     setPeriodFilter,
-    locations,
   };
 
   const dashboardChartProps: DashboardChartProps = {
@@ -74,7 +67,7 @@ export default function Dashboard() {
               <div className="cols-span-2 grid grid-cols-1 gap-4">
                 <DailyStats />
                 <div className="h-[305px]">
-                  <TransactionsTable />
+                  <TransactionsTable data={recentTransactions}/>
                 </div>
               </div>
             </div>

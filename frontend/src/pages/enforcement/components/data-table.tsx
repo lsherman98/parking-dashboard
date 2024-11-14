@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,38 +12,35 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from '@tanstack/react-table'
+} from "@tanstack/react-table";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
-import { DataTablePagination } from './data-table-pagination'
-import { DataTableToolbar } from './data-table-toolbar'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { IconCashRegister, IconGavel } from '@tabler/icons-react'
+import { DataTablePagination } from "./data-table-pagination";
+import { DataTableToolbar } from "./data-table-toolbar";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { IconGavel } from "@tabler/icons-react";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
 }
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
-  const [rowSelection, setRowSelection] = React.useState({})
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-  const [sorting, setSorting] = React.useState<SortingState>([])
+export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+
+  const [violationsCount, setViolationsCount] = React.useState(128);
+  const [violationRevenueTotal, setViolationRevenueTotal] = React.useState(4500);
+  const [enforcementCommissionTotal, setEnforcementCommissionTotal] = React.useState(2000);
+  const [processingFeesTotal, setProcessingFeesTotal] = React.useState(1080);
+
+  const [violationsChange, setViolationsChange] = React.useState(180.1);
+  const [violationRevenueChange, setViolationRevenueChange] = React.useState(-19);
+  const [enforcementCommissionChange, setEnforcementCommissionChange] = React.useState(8);
+  const [processingFeesChange, setProcessingFeesChange] = React.useState(8);
 
   const table = useReactTable({
     data,
@@ -70,107 +67,95 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
-  })
+  });
 
   return (
     <div>
       <DataTableToolbar table={table} />
-      <div className='mb-4 grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5'>
-        <Card className='h-[105px]'>
-          <CardHeader className='flex flex-col space-y-0 pb-0 pt-4'>
-            <CardTitle className='flex flex-row items-center justify-between space-y-0 text-sm font-medium'>
-              <div>Total Transactions</div>
-              <IconCashRegister className='h-4 w-4 text-muted-foreground' />
-            </CardTitle>
-          </CardHeader>
-          <CardContent className='pt-2'>
-            <div className='text-xl font-bold'>1,621</div>
-            <p className='text-xs text-green-500'>+20.1% from last month</p>
-          </CardContent>
-        </Card>
-        <Card className='h-[105px]'>
-          <CardHeader className='flex flex-col space-y-0 pb-0 pt-4'>
-            <CardTitle className='flex flex-row items-center justify-between space-y-0 text-sm font-medium'>
+      <div className="mb-4 grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <Card className="h-[105px]">
+          <CardHeader className="flex flex-col space-y-0 pb-0 pt-4">
+            <CardTitle className="flex flex-row items-center justify-between space-y-0 text-sm font-medium">
               Violations
-              <IconGavel className='h-4 w-4 text-muted-foreground' />
+              <IconGavel className="h-4 w-4 text-muted-foreground" />
             </CardTitle>
           </CardHeader>
-          <CardContent className='pt-2'>
-            <div className='text-xl font-bold'>128</div>
-            <p className='text-xs text-green-500'>+180.1% from last month</p>
+          <CardContent className="pt-2">
+            <div className="text-xl font-bold">{violationsCount}</div>
+            <p className="text-xs text-green-500">+{violationsChange}% from last month</p>
           </CardContent>
         </Card>
-        <Card className='h-[105px]'>
-          <CardHeader className='flex flex-col space-y-0 pb-0 pt-4'>
-            <CardTitle className='flex flex-row items-center justify-between space-y-0 text-sm font-medium'>
+        <Card className="h-[105px]">
+          <CardHeader className="flex flex-col space-y-0 pb-0 pt-4">
+            <CardTitle className="flex flex-row items-center justify-between space-y-0 text-sm font-medium">
               Violation Revenue
               <svg
-                xmlns='http://www.w3.org/2000/svg'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='currentColor'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth='2'
-                className='h-4 w-4 text-muted-foreground'
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                className="h-4 w-4 text-muted-foreground"
               >
-                <path d='M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6' />
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
               </svg>
             </CardTitle>
           </CardHeader>
-          <CardContent className='pt-2'>
-            <div className='text-xl font-bold'>$4500</div>
-            <p className='text-xs text-red-500'>-19% from last month</p>
+          <CardContent className="pt-2">
+            <div className="text-xl font-bold">${violationRevenueTotal}</div>
+            <p className="text-xs text-red-500">{violationRevenueChange}% from last month</p>
           </CardContent>
         </Card>
-        <Card className='h-[105px]'>
-          <CardHeader className='flex flex-col space-y-0 pb-0 pt-4'>
-            <CardTitle className='flex flex-row items-center justify-between space-y-0 text-sm font-medium'>
+        <Card className="h-[105px]">
+          <CardHeader className="flex flex-col space-y-0 pb-0 pt-4">
+            <CardTitle className="flex flex-row items-center justify-between space-y-0 text-sm font-medium">
               Enforcement Comission
               <svg
-                xmlns='http://www.w3.org/2000/svg'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='currentColor'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth='2'
-                className='h-4 w-4 text-muted-foreground'
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                className="h-4 w-4 text-muted-foreground"
               >
-                <path d='M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6' />
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
               </svg>
             </CardTitle>
           </CardHeader>
-          <CardContent className='pt-2'>
-            <div className='text-xl font-bold'>$2000</div>
-            <p className='text-xs text-green-500'>+8% since last month</p>
+          <CardContent className="pt-2">
+            <div className="text-xl font-bold">${enforcementCommissionTotal}</div>
+            <p className="text-xs text-green-500">+{enforcementCommissionChange}% since last month</p>
           </CardContent>
         </Card>
-        <Card className='h-[105px]'>
-          <CardHeader className='flex flex-col space-y-0 pb-0 pt-4'>
-            <CardTitle className='flex flex-row items-center justify-between space-y-0 text-sm font-medium'>
+        <Card className="h-[105px]">
+          <CardHeader className="flex flex-col space-y-0 pb-0 pt-4">
+            <CardTitle className="flex flex-row items-center justify-between space-y-0 text-sm font-medium">
               Processing Fees
               <svg
-                xmlns='http://www.w3.org/2000/svg'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='currentColor'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth='2'
-                className='h-4 w-4 text-muted-foreground'
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                className="h-4 w-4 text-muted-foreground"
               >
-                <path d='M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6' />
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
               </svg>
             </CardTitle>
           </CardHeader>
-          <CardContent className='pt-2'>
-            <div className='text-xl font-bold'>$1080</div>
-            <p className='text-xs text-green-500'>+8% since last hour</p>
+          <CardContent className="pt-2">
+            <div className="text-xl font-bold">${processingFeesTotal}</div>
+            <p className="text-xs text-green-500">+{processingFeesChange}% since last hour</p>
           </CardContent>
         </Card>
       </div>
-      <div className='mb-2 rounded-md border'>
+      <div className="mb-2 rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -178,14 +163,9 @@ export function DataTable<TData, TValue>({
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id} colSpan={header.colSpan}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -193,26 +173,15 @@ export function DataTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                >
+                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
+                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className='h-24 text-center'
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>
@@ -222,5 +191,5 @@ export function DataTable<TData, TValue>({
       </div>
       <DataTablePagination table={table} />
     </div>
-  )
+  );
 }

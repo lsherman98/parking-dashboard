@@ -2,9 +2,9 @@ import { Layout } from "@/components/custom/layout";
 import { UserNav } from "@/components/user-nav";
 import { DataTable } from "./components/data-table";
 import { columns } from "./components/columns";
-import { permits } from "./data/permits";
+import { permits } from "@/data";
 
-export default function Violations() {
+export default function Pemits() {
   return (
     <Layout>
       <Layout.Body>

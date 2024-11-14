@@ -2,12 +2,11 @@ import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { bookingsChartData } from "../data";
-import { DashboardChartProps } from "../types";
 import { format } from "date-fns";
+import { bookingsChartData } from "@/data";
+import { DashboardChartProps } from "@/types";
 
 export function BookingsChart({ ...props }: DashboardChartProps) {
-  const total = bookingsChartData.reduce((acc, curr) => acc + curr.total, 0);
   const { period, selectedWeek, selectedMonth, selectedYear, selectedRange } = props;
 
   const chartConfig = {
@@ -34,7 +33,7 @@ export function BookingsChart({ ...props }: DashboardChartProps) {
         <div className="flex">
           <div className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-3 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-4">
             <span className="text-xs text-muted-foreground">Total</span>
-            <span className="text-md font-bold leading-none">{total.toLocaleString()}</span>
+            <span className="text-md font-bold leading-none">{bookingsChartData.total.toLocaleString()}</span>
           </div>
         </div>
       </CardHeader>
@@ -42,7 +41,7 @@ export function BookingsChart({ ...props }: DashboardChartProps) {
         <ChartContainer config={chartConfig} className="aspect-auto h-[192px] w-full">
           <BarChart
             accessibilityLayer
-            data={bookingsChartData}
+            data={bookingsChartData.data}
             margin={{
               left: 0,
               right: 16,

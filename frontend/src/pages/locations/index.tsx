@@ -1,8 +1,8 @@
 import { Layout } from "@/components/custom/layout";
 import { UserNav } from "@/components/user-nav";
 import { DataTable } from "./components/data-table";
-import { locations } from "./data/locations";
 import { columns } from "./components/columns";
+import { locations } from "@/data";
 
 export default function Violations() {
   return (

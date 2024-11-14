@@ -48,16 +48,16 @@ export const sidelinks: SideLink[] = [
         href: "/permits",
         icon: <IconTag size={18} />,
     },
-    {
-        title: "Users",
-        label: "",
-        href: "/users",
-        icon: <IconUsers size={18} />,
-    },
-    {
-        title: "Settings",
-        label: "",
-        href: "/settings",
-        icon: <IconSettings size={18} />,
-    },
+    // {
+    //     title: "Users",
+    //     label: "",
+    //     href: "/users",
+    //     icon: <IconUsers size={18} />,
+    // },
+    // {
+    //     title: "Settings",
+    //     label: "",
+    //     href: "/settings",
+    //     icon: <IconSettings size={18} />,
+    // },
 ];

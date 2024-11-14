@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { IconRefresh } from "@tabler/icons-react";
 import { Button } from "@/components/custom/button";
 import { DashboardToolbarProps, PeriodFilter } from "@/types";
-import { weeks, years } from "@/data";
+import { locations, weeks, years } from "@/data";
 
 export default function DashboardToolbar(toolbarProps: DashboardToolbarProps) {
   const {
@@ -21,13 +21,12 @@ export default function DashboardToolbar(toolbarProps: DashboardToolbarProps) {
     setPeriodFilter,
     rangeFilter,
     setRangeFilter,
-    locations,
   } = toolbarProps;
 
   return (
-    <div className="flex flex-col items-center gap-4 sm:my-4 sm:flex-row">
+    <div className="flex flex-wrap items-center gap-2 sm:my-4">
       <MultiSelect
-        options={locations}
+        options={locations.map((location) => ({ label: location.location_code, value: location.location_code }))}
         onValueChange={setLocationFilter}
         defaultValue={locationFilter}
         placeholder="Locations"
@@ -108,8 +107,8 @@ export default function DashboardToolbar(toolbarProps: DashboardToolbarProps) {
           </SelectContent>
         </Select>
       )}
-      <IconRefresh size={24} className="mr-4" />
-      <div className="flex-grow"></div>
+      <IconRefresh size={24} />
+      <div className="xl:flex-grow"></div>
       <Button size="sm" className="h-8" variant="secondary">
         Download Report
       </Button>

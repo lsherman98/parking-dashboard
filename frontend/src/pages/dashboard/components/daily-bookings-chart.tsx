@@ -1,6 +1,6 @@
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { dailyBookingsChartData } from "@/data";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import { dailyBookingsChartData } from "../data";
 
 export default function DailyBookingsChart() {
   const bookingsChartConfig = {

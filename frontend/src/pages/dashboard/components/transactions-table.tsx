@@ -15,9 +15,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Button } from '@/components/custom/button'
-import { recentTransactions } from '../data'
-import { RecentTransaction } from '../types'
-
+import { RecentTransaction } from '@/types';
 
 const columns: ColumnDef<RecentTransaction>[] = [
   {
@@ -59,9 +57,9 @@ const columns: ColumnDef<RecentTransaction>[] = [
   },
 ];
 
-export function TransactionsTable() {
+export function TransactionsTable({ data }: { data: RecentTransaction[] }) {
   const table = useReactTable({
-    data: recentTransactions,
+    data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),

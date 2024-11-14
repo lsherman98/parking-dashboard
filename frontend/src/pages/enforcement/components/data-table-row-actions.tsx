@@ -7,19 +7,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
+import { violationSchema } from '../data/schema'
+import ViolationPhotosDialog from './violation-photos-dialog'
 
-export function DataTableRowActions() {
-  // const transaction = transactionSchema.parse(row.original)
+export function DataTableRowActions({ row }: { row: any }) {
+  const violation = violationSchema.parse(row.original)
 
   return (
     <DropdownMenu>
@@ -35,76 +27,7 @@ export function DataTableRowActions() {
       <DropdownMenuContent align='end' className='w-[160px]'>
         <DropdownMenuItem>Download Violation</DropdownMenuItem>
         <DropdownMenuItem>Cancel Ticket</DropdownMenuItem>
-        <Dialog>
-          <DialogTrigger asChild>
-            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-              View Photos
-            </DropdownMenuItem>
-          </DialogTrigger>
-          <DialogContent className='min-w-[800px] sm:max-w-xl'>
-            <DialogHeader>
-              <DialogTitle>Violation Photos</DialogTitle>
-              <DialogDescription>
-                Entry and exit photos of violation vehicle.
-              </DialogDescription>
-            </DialogHeader>
-            <div>
-              <h2>
-                <span className='font-bold'>Camera: </span>DS-101 ENT-1
-                (Adaptive)
-              </h2>
-              <h4>
-                <span className='font-bold'> Time of entry: </span>04/08/2024
-                8:43 AM
-              </h4>
-              <h4>
-                <span className='font-bold'> Time of exit: </span>04/08/2024
-                8:43 AM
-              </h4>
-            </div>
-            <div className='justify-center space-y-4'>
-              <div className='flex gap-8'>
-                <div>
-                  <div className='font-bold'>Plate Entry</div>
-                  <img
-                    src='https://via.placeholder.com/400x300'
-                    alt='Violation photo'
-                  />
-                </div>
-                <div>
-                  <div className='font-bold'>Vehicle Entry</div>
-                  <img
-                    src='https://via.placeholder.com/400x300'
-                    alt='Violation photo'
-                  />
-                </div>
-              </div>
-              <div className='flex gap-8'>
-                <div>
-                  <div className='font-bold'>Plate Exit</div>
-                  <img
-                    src='https://via.placeholder.com/400x300'
-                    alt='Violation photo'
-                  />
-                </div>
-                <div>
-                  <div className='font-bold'>Vehicle Exit</div>
-                  <img
-                    src='https://via.placeholder.com/400x300'
-                    alt='Violation photo'
-                  />
-                </div>
-              </div>
-            </div>
-            <DialogFooter className='sm:justify-end'>
-              <DialogClose asChild>
-                <Button type='button' variant='secondary'>
-                  Close
-                </Button>
-              </DialogClose>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <ViolationPhotosDialog violation={violation} />
       </DropdownMenuContent>
     </DropdownMenu>
   )

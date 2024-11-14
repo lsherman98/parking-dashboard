@@ -12,7 +12,7 @@ export const columns: ColumnDef<Violation>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='ID' />
     ),
-    cell: ({ row }) => <div className='w-[20px]'>{row.getValue('id')}</div>,
+    cell: ({ row }) => <div className='w-auto'>{row.getValue('id')}</div>,
     enableSorting: false,
     enableHiding: false,
   },
@@ -31,7 +31,7 @@ export const columns: ColumnDef<Violation>[] = [
       }
       
       return (
-        <div className={`flex w-[90px] items-center ${status.color}`}>
+        <div className={`flex w-auto items-center ${status.color}`}>
           {status.icon && (
             <status.icon className='mr-2 h-4 w-4 text-muted-foreground' />
           )}
@@ -49,7 +49,7 @@ export const columns: ColumnDef<Violation>[] = [
       <DataTableColumnHeader column={column} title='License Plate' />
     ),
     cell: ({ row }) => (
-      <div className='w-[80px]'>{row.getValue('license_plate')}</div>
+      <div className='w-auto'>{row.getValue('license_plate')}</div>
     ),
     enableSorting: false,
     enableHiding: true,
@@ -60,7 +60,7 @@ export const columns: ColumnDef<Violation>[] = [
       <DataTableColumnHeader column={column} title='Location' />
     ),
     cell: ({ row }) => (
-      <div className='w-[80px]'>{row.getValue('location')}</div>
+      <div className='w-auto'>{row.getValue('location')}</div>
     ),
     enableSorting: true,
     enableHiding: false,
@@ -70,7 +70,7 @@ export const columns: ColumnDef<Violation>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Date' />
     ),
-    cell: ({ row }) => <div className='w-[80px]'>{row.getValue('date')}</div>,
+    cell: ({ row }) => <div className='w-auto'>{row.getValue('date')}</div>,
     enableSorting: true,
     enableHiding: true,
   },
@@ -80,7 +80,7 @@ export const columns: ColumnDef<Violation>[] = [
       <DataTableColumnHeader column={column} title='Session Start' />
     ),
     cell: ({ row }) => (
-      <div className='w-[80px]'>{row.getValue('session_start')}</div>
+      <div className='w-auto'>{row.getValue('session_start')}</div>
     ),
     enableSorting: false,
     enableHiding: true,
@@ -91,7 +91,7 @@ export const columns: ColumnDef<Violation>[] = [
       <DataTableColumnHeader column={column} title='Session End' />
     ),
     cell: ({ row }) => (
-      <div className='w-[80px]'>{row.getValue('session_end')}</div>
+      <div className='w-auto'>{row.getValue('session_end')}</div>
     ),
     enableSorting: false,
     enableHiding: true,
@@ -101,7 +101,7 @@ export const columns: ColumnDef<Violation>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Transaction ID' />
     ),
-    cell: ({ row }) => <div className='w-[80px]'>{row.getValue('transaction_id')}</div>,
+    cell: ({ row }) => <div className='w-auto'>{row.getValue('transaction_id')}</div>,
     enableSorting: false,
     enableHiding: true,
   },
@@ -111,13 +111,13 @@ export const columns: ColumnDef<Violation>[] = [
       <DataTableColumnHeader column={column} title='Ticket Amount' />
     ),
     cell: ({ row }) => (
-      <div className='w-[80px]'>{row.getValue('ticket_amount')}</div>
+      <div className='w-auto'>{row.getValue('ticket_amount')}</div>
     ),
     enableSorting: false,
     enableHiding: true,
   },
   {
     id: 'actions',
-    cell: () => <DataTableRowActions />,
+    cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ]

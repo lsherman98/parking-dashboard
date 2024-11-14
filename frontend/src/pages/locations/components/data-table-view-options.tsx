@@ -31,6 +31,8 @@ const getColumnHeader = (column: string) => {
             return "State";
         case "address":
             return "Address";
+        case "zip_code":
+            return "Zip Code";
     }
 };
 

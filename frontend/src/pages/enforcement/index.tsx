@@ -2,7 +2,7 @@ import { Layout } from '@/components/custom/layout'
 import { UserNav } from '@/components/user-nav'
 import { DataTable } from './components/data-table'
 import { columns } from './components/columns'
-import { violations } from './data/violations'
+import { violations } from '@/data'
 
 export default function Violations() {
   return (

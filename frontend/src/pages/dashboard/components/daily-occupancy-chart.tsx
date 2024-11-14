@@ -1,6 +1,6 @@
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { dailyOccupancyChartData } from "@/data";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import { dailyOccupancyChartData } from "../data";
 
 export default function DailyOccupancyChart() {
   const occupancyChartConfig = {

@@ -2,7 +2,7 @@ import { Layout } from '@/components/custom/layout'
 import { UserNav } from '@/components/user-nav'
 import { DataTable } from './components/data-table'
 import { columns } from './components/columns'
-import { transactions } from './data/transactions'
+import { transactions } from '@/data'
 
 export default function Transactions() {
   return (
