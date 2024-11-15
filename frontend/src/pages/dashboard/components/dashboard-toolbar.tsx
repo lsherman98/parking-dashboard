@@ -6,54 +6,70 @@ import { IconRefresh } from "@tabler/icons-react";
 import { Button } from "@/components/custom/button";
 import { DashboardToolbarProps, PeriodFilter } from "@/types";
 import { locations, weeks, years } from "@/data";
+import { useAppDispatch } from "@/store/hooks";
+import { fetchDashboardDataThunk } from "@/store/slices/dashboardSlice";
 
 export default function DashboardToolbar(toolbarProps: DashboardToolbarProps) {
+  const dispatch = useAppDispatch();
+
   const {
     locationFilter,
-    setLocationFilter,
+    handleLocationChange,
     weekFilter,
-    setWeekFilter,
+    handleWeekChange,
     monthFilter,
-    setMonthFilter,
+    handleMonthChange,
     yearFilter,
-    setYearFilter,
+    handleYearChange,
     periodFilter,
-    setPeriodFilter,
+    handlePeriodChange,
     rangeFilter,
-    setRangeFilter,
+    handleRangeChange,
+    loading,
   } = toolbarProps;
+
+  const handleRefresh = () => dispatch(fetchDashboardDataThunk());
 
   return (
     <div className="flex flex-wrap items-center gap-2 sm:my-4">
       <MultiSelect
         options={locations.map((location) => ({ label: location.location_code, value: location.location_code }))}
-        onValueChange={setLocationFilter}
+        onValueChange={handleLocationChange}
         defaultValue={locationFilter}
         placeholder="Locations"
         variant="inverted"
         animation={2}
         maxCount={3}
         className="min-h-9 w-auto min-w-36 shadow-none"
+        disabled={loading}
       />
       <Tabs
         orientation="vertical"
         defaultValue={periodFilter}
         className="space-y-4"
-        onValueChange={(value: string) => setPeriodFilter(value as PeriodFilter)}
+        onValueChange={(value: string) => handlePeriodChange(value as PeriodFilter)}
       >
         <TabsList>
-          <TabsTrigger value="week">Week</TabsTrigger>
-          <TabsTrigger value="month">Month</TabsTrigger>
-          <TabsTrigger value="three_month">90 Days</TabsTrigger>
-          <TabsTrigger value="year">Year</TabsTrigger>
-          <TabsTrigger value="range">Range</TabsTrigger>
+          <TabsTrigger disabled={loading} value="week">
+            Week
+          </TabsTrigger>
+          <TabsTrigger disabled={loading} value="month">
+            Month
+          </TabsTrigger>
+          <TabsTrigger disabled={loading} value="three_month">
+            90 Days
+          </TabsTrigger>
+          <TabsTrigger disabled={loading} value="year">
+            Year
+          </TabsTrigger>
+          <TabsTrigger disabled={loading} value="range">
+            Range
+          </TabsTrigger>
         </TabsList>
       </Tabs>
-      {periodFilter === "range" && (
-        <DatePickerWithRange date={rangeFilter} onDateChange={setRangeFilter} />
-      )}
+      {periodFilter === "range" && <DatePickerWithRange date={rangeFilter} onDateChange={handleRangeChange} disabled={loading} />}
       {periodFilter === "week" && (
-        <Select value={weekFilter} onValueChange={setWeekFilter}>
+        <Select value={weekFilter} onValueChange={handleWeekChange} disabled={loading}>
           <SelectTrigger className="w-36 shadow-none">
             <SelectValue>{weekFilter}</SelectValue>
           </SelectTrigger>
@@ -69,9 +85,9 @@ export default function DashboardToolbar(toolbarProps: DashboardToolbarProps) {
         </Select>
       )}
       {periodFilter === "month" && (
-        <Select value={monthFilter} onValueChange={setMonthFilter}>
+        <Select value={monthFilter} onValueChange={handleMonthChange} disabled={loading}>
           <SelectTrigger className="w-48 shadow-none">
-            <SelectValue>{monthFilter}</SelectValue>
+            <SelectValue>{monthFilter.charAt(0).toUpperCase() + monthFilter.slice(1)}</SelectValue>
           </SelectTrigger>
           <SelectContent className="max-h-[var(--radix-select-content-available-height)]">
             <SelectGroup>
@@ -92,7 +108,7 @@ export default function DashboardToolbar(toolbarProps: DashboardToolbarProps) {
         </Select>
       )}
       {periodFilter === "year" && (
-        <Select value={yearFilter} onValueChange={setYearFilter}>
+        <Select value={yearFilter} onValueChange={handleYearChange} disabled={loading}>
           <SelectTrigger className="w-36 shadow-none">
             <SelectValue>{yearFilter}</SelectValue>
           </SelectTrigger>
@@ -107,7 +123,11 @@ export default function DashboardToolbar(toolbarProps: DashboardToolbarProps) {
           </SelectContent>
         </Select>
       )}
-      <IconRefresh size={24} />
+      <IconRefresh
+        size={24}
+        onClick={handleRefresh}
+        className={`${loading ? "animate-[spin_1s_linear_infinite_reverse] cursor-not-allowed opacity-50" : "cursor-pointer"}`}
+      />
       <div className="xl:flex-grow"></div>
       <Button size="sm" className="h-8" variant="secondary">
         Download Report

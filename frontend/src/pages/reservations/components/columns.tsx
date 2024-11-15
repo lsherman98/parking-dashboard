@@ -1,9 +1,9 @@
 import { ColumnDef } from "@tanstack/react-table";
 
-import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
 import { Reservation } from "../data/schema";
 import { statuses } from "../data/data";
+import { DataTableColumnHeader } from "@/components/data-table-column-header";
 
 export const columns: ColumnDef<Reservation>[] = [
   {

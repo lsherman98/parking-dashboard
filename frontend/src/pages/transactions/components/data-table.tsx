@@ -16,11 +16,10 @@ import {
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
-import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IconCashRegister, IconGavel } from "@tabler/icons-react";
-import { useState } from "react";
+import { DataTablePagination } from "@/components/data-table-pagination";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -33,17 +32,17 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
-  const [transactionsCount, setTransactionsCount] = useState(1621);
-  const [violationsCount, setViolationsCount] = useState(426);
-  const [violationRevenue, setViolationRevenue] = useState(2500);
-  const [enforcementCommission, setEnforcementCommission] = useState(2000);
-  const [processingFees, setProcessingFees] = useState(1080);
+  const transactionsCount = 1621;
+  const violationsCount = 426;
+  const violationRevenue = 2500;
+  const enforcementCommission = 2000;
+  const processingFees = 1080;
 
-  const [transactionCountChange, setTransactionCountChange] = useState(20.1);
-  const [violationsCountChange, setViolationsCountChange] = useState(180.1);
-  const [violationRevenueChange, setViolationRevenueChange] = useState(-19);
-  const [enforcementCommissionChange, setEnforcementCommissionChange] = useState(8);
-  const [processingFeesChange, setProcessingFeesChange] = useState(8);
+  const transactionCountChange = 20.1;
+  const violationsCountChange = 180.1;
+  const violationRevenueChange = -19;
+  const enforcementCommissionChange = 8;
+  const processingFeesChange = 8;
 
   const table = useReactTable({
     data,

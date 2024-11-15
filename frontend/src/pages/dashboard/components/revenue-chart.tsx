@@ -2,12 +2,10 @@ import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { revenueChartData } from "@/data";
-import { DashboardChartProps } from "@/types";
 
 
-export function RevenueChart({ ...props }: DashboardChartProps) {
-  const { period, selectedWeek, selectedMonth, selectedYear, selectedRange } = props;
+export function RevenueChart({ ...props }: any) {
+  const { period, selectedWeek, selectedMonth, selectedYear, selectedRange, revenueChartData } = props;
   
   const chartConfig = {
     revenue: {

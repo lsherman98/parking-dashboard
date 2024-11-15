@@ -16,11 +16,10 @@ import {
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
-import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IconCalendarClock, IconParkingCircle } from "@tabler/icons-react";
-import { useState } from "react";
+import { DataTablePagination } from "@/components/data-table-pagination";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -33,11 +32,11 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
-  const [reservationsCount, setReservationsCount] = useState(45);
-  const [occupancy, setOccupancy] = useState(64);
+  const reservationsCount = 45;
+  const occupancy = 64;
 
-  const [reservationCountChange, setReservationCountChange] = useState(20.1);
-  const [occupancyChange, setOccupancyChange] = useState(180.1);
+  const reservationCountChange = 20.1;
+  const occupancyChange = 180.1;
 
   const table = useReactTable({
     data,

@@ -1,10 +1,10 @@
 import { ColumnDef } from "@tanstack/react-table";
 
-import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
 
 import { statuses } from "../data/data";
 import { Location } from "../data/schema";
+import { DataTableColumnHeader } from "@/components/data-table-column-header";
 
 export const columns: ColumnDef<Location>[] = [
   {

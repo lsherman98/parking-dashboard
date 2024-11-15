@@ -3,8 +3,16 @@ import { UserNav } from "@/components/user-nav";
 import { DataTable } from "./components/data-table";
 import { columns } from "./components/columns";
 import { locations } from "@/data";
+import { useAppSelector } from "@/store/hooks";
+import { toast } from "sonner";
 
-export default function Violations() {
+export default function Locations() {
+  const { data, error } = useAppSelector((state) => state.transactions);
+
+  if (error) {
+    toast(`Something went wrong. Please try again later.`, { description: error });
+  }
+  
   return (
     <Layout>
       <Layout.Body>

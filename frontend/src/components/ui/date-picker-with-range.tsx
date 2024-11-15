@@ -11,9 +11,10 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 interface DatePickerWithRangeProps extends React.HTMLAttributes<HTMLDivElement> {
   date: DateRange | undefined;
   onDateChange: (date: DateRange | undefined) => void;
+  disabled?: boolean;
 }
 
-export function DatePickerWithRange({ className, date, onDateChange }: DatePickerWithRangeProps) {
+export function DatePickerWithRange({ className, date, onDateChange, disabled = false }: DatePickerWithRangeProps) {
   return (
     <div className={cn("grid gap-2", className)}>
       <Popover>
@@ -22,6 +23,7 @@ export function DatePickerWithRange({ className, date, onDateChange }: DatePicke
             id="date"
             variant={"outline"}
             className={cn("w-[300px] justify-start text-left font-normal", !date && "text-muted-foreground")}
+            disabled={disabled}
           >
             <CalendarIcon className="mr-2" />
             {date?.from ? (

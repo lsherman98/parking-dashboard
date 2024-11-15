@@ -16,11 +16,10 @@ import {
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
-import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IconCircleCheck, IconCircleX, IconHourglass } from "@tabler/icons-react";
-import { useState } from "react";
+import { DataTablePagination } from "@/components/data-table-pagination";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -33,9 +32,9 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
-  const [activePermits, setActivePermits] = useState(14);
-  const [requestedPermits, setRequestedPermits] = useState(42);
-  const [expiredPermits, setExpiredPermits] = useState(23);
+  const activePermits = 14;
+  const requestedPermits = 42;
+  const expiredPermits = 23;
 
   const table = useReactTable({
     data,
@@ -67,7 +66,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
   return (
     <div>
       <DataTableToolbar table={table} />
-      <div className="mb-4 grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+      <div className="mb-4 grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <Card className="h-[90px]">
           <CardHeader className="flex flex-col space-y-0 pb-0 pt-4">
             <CardTitle className="flex flex-row items-center justify-between space-y-0 text-sm font-medium">

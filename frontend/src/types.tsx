@@ -10,18 +10,19 @@ export type Status = {
 export type PeriodFilter = "week" | "month" | "three_month" | "year" | "range";
 
 export type DashboardToolbarProps = {
+  loading: boolean;
   locationFilter: string[];
-  setLocationFilter: (value: string[]) => void;
-  weekFilter: string;
-  setWeekFilter: (value: string) => void;
-  monthFilter: string;
-  setMonthFilter: (value: string) => void;
-  yearFilter: string;
-  setYearFilter: (value: string) => void;
-  rangeFilter: DateRange | undefined;
-  setRangeFilter: (value: DateRange | undefined) => void;
   periodFilter: PeriodFilter;
-  setPeriodFilter: (value: PeriodFilter) => void;
+  weekFilter: string;
+  monthFilter: string;
+  yearFilter: string;
+  rangeFilter: DateRange | undefined;
+  handleLocationChange: (value: string[]) => void;
+  handlePeriodChange: (value: PeriodFilter) => void;
+  handleWeekChange: (value: string) => void;
+  handleMonthChange: (value: string) => void;
+  handleYearChange: (value: string) => void;
+  handleRangeChange: (value: DateRange | undefined) => void;
 };
 
 export type DashboardChartProps = {
@@ -30,6 +31,7 @@ export type DashboardChartProps = {
   selectedYear: string;
   selectedRange: DateRange | undefined;
   period: PeriodFilter;
+  data?: any;
 };
 
 export type DailyBookingItem = {

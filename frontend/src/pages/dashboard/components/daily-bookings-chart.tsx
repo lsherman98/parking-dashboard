@@ -1,8 +1,7 @@
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { dailyBookingsChartData } from "@/data";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
-export default function DailyBookingsChart() {
+export default function DailyBookingsChart({data}: any) {
   const bookingsChartConfig = {
     bookings: {
       label: "Bookings",
@@ -14,7 +13,7 @@ export default function DailyBookingsChart() {
     <ChartContainer config={bookingsChartConfig} className="h-[10rem] w-full">
       <AreaChart
         accessibilityLayer
-        data={dailyBookingsChartData}
+        data={data}
         margin={{
           left: 12,
           right: 12,

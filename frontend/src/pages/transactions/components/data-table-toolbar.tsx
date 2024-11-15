@@ -4,29 +4,75 @@ import { Button } from "@/components/custom/button";
 import { DataTableViewOptions } from "./data-table-view-options";
 
 import { statuses } from "../data/data";
-import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { IconRefresh } from "@tabler/icons-react";
 import { MultiSelect } from "@/components/custom/multi-select";
 import { DatePickerWithRange } from "@/components/ui/date-picker-with-range";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectItem } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useState } from "react";
+import { useEffect, useMemo } from "react";
 import { Input } from "@/components/ui/input";
-import { currentMonth, currentWeek, currentYear, locations, weeks, years } from "@/data";
+import { locations, weeks, years } from "@/data";
 import { DateRange } from "react-day-picker";
 import { PeriodFilter } from "@/types";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import {
+  fetchTransactionDataThunk,
+  setLocationFilter,
+  setMonthFilter,
+  setPeriodFilter,
+  setRangeFilter,
+  setStatusFilter,
+  setWeekFilter,
+  setYearFilter,
+} from "@/store/slices/transactionsSlice";
+import { DataTableFacetedFilter } from "@/components/data-table-faceted-filter";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
 }
 
 export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>) {
-  const [locationFilter, setLocationFilter] = useState<string[]>([]);
-  const [weekFilter, setWeekFilter] = useState<string>(currentWeek);
-  const [monthFilter, setMonthFilter] = useState<string>(currentMonth);
-  const [yearFilter, setYearFilter] = useState<string>(currentYear);
-  const [rangeFilter, setRangeFilter] = useState<DateRange | undefined>({ from: undefined, to: undefined });
-  const [periodFilter, setPeriodFilter] = useState<PeriodFilter>("month");
+  const dispatch = useAppDispatch();
+
+  const {
+    locationFilter,
+    weekFilter,
+    monthFilter,
+    yearFilter,
+    periodFilter,
+    rangeFilter: rawRangeFilter,
+    statusFilter,
+    loading,
+  } = useAppSelector((state) => state.transactions);
+
+  const rangeFilter = useMemo(() => {
+    return rawRangeFilter
+      ? {
+          from: rawRangeFilter.from ? new Date(rawRangeFilter.from) : undefined,
+          to: rawRangeFilter.to ? new Date(rawRangeFilter.to) : undefined,
+        }
+      : undefined;
+  }, [rawRangeFilter]);
+
+  const handleLocationChange = (locations: string[]) => dispatch(setLocationFilter(locations));
+    const handlePeriodChange = (period: PeriodFilter) => {
+      if (period === "range") return;
+      dispatch(setPeriodFilter(period));
+    };
+  const handleWeekChange = (week: string) => dispatch(setWeekFilter(week));
+  const handleMonthChange = (month: string) => dispatch(setMonthFilter(month));
+  const handleYearChange = (year: string) => dispatch(setYearFilter(year));
+  const handleStatusChange = (selectedValues: string[]) => dispatch(setStatusFilter(selectedValues));
+  const handleRangeChange = (range: DateRange | undefined) => {
+    const serializableRange = range ? { from: range.from?.toISOString(), to: range.to?.toISOString() } : undefined;
+    dispatch(setRangeFilter(serializableRange));
+  };
+
+  useEffect(() => {
+    dispatch(fetchTransactionDataThunk());
+  }, [locationFilter, weekFilter, monthFilter, yearFilter, rangeFilter, periodFilter, statusFilter]);
+
+  const handleRefresh = () => dispatch(fetchTransactionDataThunk());
 
   return (
     <div className="flex flex-wrap items-center gap-2 sm:my-4">
@@ -35,34 +81,46 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
         value={table.getState().globalFilter ?? ""}
         onChange={(event) => table.setGlobalFilter(event.target.value)}
         className="h-8 w-[150px] lg:w-[175px]"
+        disabled={loading}
       />
       <MultiSelect
         options={locations.map((location) => ({ label: location.location_code, value: location.location_code }))}
-        onValueChange={setLocationFilter}
+        onValueChange={handleLocationChange}
         defaultValue={locationFilter}
         placeholder="Locations"
         variant="inverted"
         animation={2}
         maxCount={3}
         className="min-h-9 w-auto min-w-24 shadow-none"
+        disabled={loading}
       />
       <Tabs
         orientation="vertical"
         defaultValue={periodFilter}
         className="space-y-4"
-        onValueChange={(value: string) => setPeriodFilter(value as PeriodFilter)}
+        onValueChange={(value: string) => handlePeriodChange(value as PeriodFilter)}
       >
         <TabsList>
-          <TabsTrigger value="week">Week</TabsTrigger>
-          <TabsTrigger value="month">Month</TabsTrigger>
-          <TabsTrigger value="three_month">90 Days</TabsTrigger>
-          <TabsTrigger value="year">Year</TabsTrigger>
-          <TabsTrigger value="range">Range</TabsTrigger>
+          <TabsTrigger disabled={loading} value="week">
+            Week
+          </TabsTrigger>
+          <TabsTrigger disabled={loading} value="month">
+            Month
+          </TabsTrigger>
+          <TabsTrigger disabled={loading} value="three_month">
+            90 Days
+          </TabsTrigger>
+          <TabsTrigger disabled={loading} value="year">
+            Year
+          </TabsTrigger>
+          <TabsTrigger disabled={loading} value="range">
+            Range
+          </TabsTrigger>
         </TabsList>
       </Tabs>
-      {periodFilter === "range" && <DatePickerWithRange date={rangeFilter} onDateChange={setRangeFilter} />}
+      {periodFilter === "range" && <DatePickerWithRange date={rangeFilter} onDateChange={handleRangeChange} />}
       {periodFilter === "week" && (
-        <Select value={weekFilter} onValueChange={setWeekFilter}>
+        <Select value={weekFilter} onValueChange={handleWeekChange} disabled={loading}>
           <SelectTrigger className="w-36 shadow-none">
             <SelectValue>{weekFilter}</SelectValue>
           </SelectTrigger>
@@ -78,9 +136,9 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
         </Select>
       )}
       {periodFilter === "month" && (
-        <Select value={monthFilter} onValueChange={setMonthFilter}>
+        <Select value={monthFilter} onValueChange={handleMonthChange} disabled={loading}>
           <SelectTrigger className="w-32 shadow-none">
-            <SelectValue>{monthFilter}</SelectValue>
+            <SelectValue>{monthFilter.charAt(0).toUpperCase() + monthFilter.slice(1)}</SelectValue>
           </SelectTrigger>
           <SelectContent className="max-h-[var(--radix-select-content-available-height)]">
             <SelectGroup>
@@ -101,7 +159,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
         </Select>
       )}
       {periodFilter === "year" && (
-        <Select value={yearFilter} onValueChange={setYearFilter}>
+        <Select value={yearFilter} onValueChange={handleYearChange} disabled={loading}>
           <SelectTrigger className="w-36 shadow-none">
             <SelectValue>{yearFilter}</SelectValue>
           </SelectTrigger>
@@ -117,9 +175,19 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
         </Select>
       )}
       {table.getColumn("status") && (
-        <DataTableFacetedFilter column={table.getColumn("status")} title="Status" options={statuses} />
+        <DataTableFacetedFilter
+          column={table.getColumn("status")}
+          title="Status"
+          options={statuses}
+          onSelectionChange={handleStatusChange}
+          disabled={loading}
+        />
       )}
-      <IconRefresh size={24} />
+      <IconRefresh
+        size={24}
+        onClick={handleRefresh}
+        className={`${loading ? "animate-[spin_1s_linear_infinite_reverse] cursor-not-allowed opacity-50" : "cursor-pointer"}`}
+      />
       <div className="xl:flex-grow"></div>
       <DataTableViewOptions table={table} />
       <Button size="sm" className="h-8" variant="secondary">

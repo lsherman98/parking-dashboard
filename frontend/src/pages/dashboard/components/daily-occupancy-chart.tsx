@@ -1,8 +1,7 @@
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { dailyOccupancyChartData } from "@/data";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
-export default function DailyOccupancyChart() {
+export default function DailyOccupancyChart({data}: any) {
   const occupancyChartConfig = {
     bookings: {
       label: "Occupancy",
@@ -14,7 +13,7 @@ export default function DailyOccupancyChart() {
     <ChartContainer config={occupancyChartConfig} className="h-[10rem] w-full">
       <AreaChart
         accessibilityLayer
-        data={dailyOccupancyChartData}
+        data={data}
         margin={{
           left: 12,
           right: 12,

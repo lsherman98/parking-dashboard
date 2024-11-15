@@ -3,11 +3,9 @@ import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { format } from "date-fns";
-import { bookingsChartData } from "@/data";
-import { DashboardChartProps } from "@/types";
 
-export function BookingsChart({ ...props }: DashboardChartProps) {
-  const { period, selectedWeek, selectedMonth, selectedYear, selectedRange } = props;
+export function BookingsChart({ ...props }: any) {
+  const { period, selectedWeek, selectedMonth, selectedYear, selectedRange, bookingsChartData } = props;
 
   const chartConfig = {
     bookings: {
