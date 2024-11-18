@@ -8,7 +8,6 @@ import DashboardToolbar from "./components/dashboard-toolbar";
 import CardStats from "./components/card-stats";
 import DailyStats from "./components/daily-stats";
 import { DashboardChartProps, DashboardToolbarProps, PeriodFilter } from "@/types";
-import { bookingsChartData, recentTransactions, revenueChartData } from "@/data";
 import { DateRange } from "react-day-picker";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
@@ -31,24 +30,15 @@ export default function Dashboard() {
     monthFilter,
     yearFilter,
     periodFilter,
-    rangeFilter: rawRangeFilter,
+    rangeFilter,
     data,
     error,
     loading,
   } = useAppSelector((state) => state.dashboard);
-
-  const rangeFilter = useMemo(() => {
-    return rawRangeFilter
-      ? {
-          from: rawRangeFilter.from ? new Date(rawRangeFilter.from) : undefined,
-          to: rawRangeFilter.to ? new Date(rawRangeFilter.to) : undefined,
-        }
-      : undefined;
-  }, [rawRangeFilter]);
+  const {statsData, dailyStatsData, revenueData, bookingsData, recentTransactionsData} = data;
 
   const handleLocationChange = (location: string[]) => dispatch(setLocationFilter(location));
   const handlePeriodChange = (period: PeriodFilter) => {
-    if (period === 'range') return;
     dispatch(setPeriodFilter(period))
   };
   const handleWeekChange = (week: string) => dispatch(setWeekFilter(week));
@@ -57,9 +47,13 @@ export default function Dashboard() {
   const handleRangeChange = (range: DateRange | undefined) => {
     const serializableRange = range ? { from: range.from?.toISOString(), to: range.to?.toISOString() } : undefined;
     dispatch(setRangeFilter(serializableRange));
+    if (serializableRange?.from && serializableRange?.to) {
+      dispatch(fetchDashboardDataThunk());
+    }
   };
 
   useEffect(() => {
+    if (periodFilter === "range") return;
     dispatch(fetchDashboardDataThunk());
   }, [locationFilter, weekFilter, monthFilter, yearFilter, rangeFilter, periodFilter]);
 
@@ -107,16 +101,16 @@ export default function Dashboard() {
         <div className="space-y-4">
           <DashboardToolbar {...toolbarProps} />
           <div className="space-y-4">
-            <CardStats data={data} />
+            <CardStats data={statsData} periodFilter={periodFilter} />
             <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-2">
               <div className="cols-span-2 grid grid-cols-1 gap-4">
-                <BookingsChart {...dashboardChartProps} bookingsChartData={bookingsChartData} />
-                <RevenueChart {...dashboardChartProps} revenueChartData={revenueChartData} />
+                <BookingsChart {...dashboardChartProps} bookingsChartData={bookingsData} />
+                <RevenueChart {...dashboardChartProps} revenueChartData={revenueData} />
               </div>
               <div className="cols-span-2 grid grid-cols-1 gap-4">
-                <DailyStats data={data} />
+                <DailyStats data={dailyStatsData} />
                 <div className="h-[305px]">
-                  <TransactionsTable data={recentTransactions} />
+                  <TransactionsTable data={recentTransactionsData} />
                 </div>
               </div>
             </div>

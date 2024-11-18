@@ -24,19 +24,21 @@ import { DataTablePagination } from "@/components/data-table-pagination";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  stats: any;
+  period: any;
 }
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, stats, period }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
-  const reservationsCount = 45;
-  const occupancy = 64;
+  const reservationsCount = stats.reservationsCount;
+  const occupancy = stats.occupancy;
 
-  const reservationCountChange = 20.1;
-  const occupancyChange = 180.1;
+  const reservationCountChange = stats.reservationCountChange;
+  const occupancyChange = stats.occupancyChange;
 
   const table = useReactTable({
     data,
@@ -78,7 +80,19 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
           </CardHeader>
           <CardContent className="pt-2">
             <div className="text-xl font-bold">{reservationsCount}</div>
-            <p className="text-xs text-green-500">+{reservationCountChange}% from last month</p>
+            {period === "three_month" && (
+              <p className={`text-xs ${reservationCountChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                {reservationCountChange >= 0 ? "+" + reservationCountChange : reservationCountChange}% from last 90 days
+              </p>
+            )}
+            {["week", "month", "year"].map(
+              (periodStr) =>
+                period === periodStr && (
+                  <p key={period} className={`text-xs ${reservationCountChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                    {reservationCountChange >= 0 ? "+" + reservationCountChange : reservationCountChange}% from last {period}
+                  </p>
+                ),
+            )}
           </CardContent>
         </Card>
         <Card className="h-[105px]">
@@ -89,8 +103,20 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-2">
-            <div className="text-xl font-bold">{occupancy}%</div>
-            <p className="text-xs text-green-500">+{occupancyChange}% from last month</p>
+            <div className="text-xl font-bold">{occupancy.toFixed(2)}%</div>
+            {period === "three_month" && (
+              <p className={`text-xs ${occupancyChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                {occupancyChange >= 0 ? "+" + occupancyChange : occupancyChange}% from last 90 days
+              </p>
+            )}
+            {["week", "month", "year"].map(
+              (periodStr) =>
+                period === periodStr && (
+                  <p key={period} className={`text-xs ${occupancyChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                    {occupancyChange >= 0 ? "+" + occupancyChange : occupancyChange}% from last {period}
+                  </p>
+                ),
+            )}
           </CardContent>
         </Card>
       </div>

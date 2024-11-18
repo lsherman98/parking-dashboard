@@ -20,32 +20,35 @@ import { DataTableToolbar } from "./data-table-toolbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IconCashRegister, IconGavel } from "@tabler/icons-react";
 import { DataTablePagination } from "@/components/data-table-pagination";
+import { PeriodFilter } from "@/types";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  stats: any;
+  period: PeriodFilter;
 }
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, stats, period }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
-  const transactionsCount = 1621;
-  const violationsCount = 426;
-  const violationRevenue = 2500;
-  const enforcementCommission = 2000;
-  const processingFees = 1080;
+  const transactionsCount = stats.transactionsCount;
+  const violationsCount = stats.violationsCount;
+  const violationRevenue = stats.violationRevenue;
+  const enforcementCommission = stats.enforcementCommission;
+  const processingFees = stats.processingFees;
 
-  const transactionCountChange = 20.1;
-  const violationsCountChange = 180.1;
-  const violationRevenueChange = -19;
-  const enforcementCommissionChange = 8;
-  const processingFeesChange = 8;
+  const transactionCountChange = stats.transactionCountChange;
+  const violationsCountChange = stats.violationsCountChange;
+  const violationRevenueChange = stats.violationRevenueChange;
+  const enforcementCommissionChange = stats.enforcementCommissionChange;
+  const processingFeesChange = stats.processingFeesChange;
 
   const table = useReactTable({
-    data,
+    data: data,
     columns,
     state: {
       sorting,
@@ -75,7 +78,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     <div>
       <DataTableToolbar table={table} />
       <div className="mb-4 grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-        <Card className="h-[105px]">
+        <Card>
           <CardHeader className="flex flex-col space-y-0 pb-0 pt-4">
             <CardTitle className="flex flex-row items-center justify-between space-y-0 text-sm font-medium">
               <div>Total Transactions</div>
@@ -84,10 +87,22 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
           </CardHeader>
           <CardContent className="pt-2">
             <div className="text-xl font-bold">{transactionsCount}</div>
-            <p className="text-xs text-green-500">+{transactionCountChange}% from last month</p>
+            {period === "three_month" && (
+              <p className={`text-xs ${transactionCountChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                {transactionCountChange >= 0 ? "+" + transactionCountChange : transactionCountChange}% from last 90 days
+              </p>
+            )}
+            {["week", "month", "year"].map(
+              (periodStr) =>
+                period === periodStr && (
+                  <p key={period} className={`text-xs ${transactionCountChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                    {transactionCountChange >= 0 ? "+" + transactionCountChange : transactionCountChange}% from last {period}
+                  </p>
+                ),
+            )}
           </CardContent>
         </Card>
-        <Card className="h-[105px]">
+        <Card>
           <CardHeader className="flex flex-col space-y-0 pb-0 pt-4">
             <CardTitle className="flex flex-row items-center justify-between space-y-0 text-sm font-medium">
               Violations
@@ -96,10 +111,22 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
           </CardHeader>
           <CardContent className="pt-2">
             <div className="text-xl font-bold">{violationsCount}</div>
-            <p className="text-xs text-green-500">+{violationsCountChange}% from last month</p>
+            {period === "three_month" && (
+              <p className={`text-xs ${violationsCountChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                {violationsCountChange >= 0 ? "+" + violationsCountChange : violationsCountChange}% from last 90 days
+              </p>
+            )}
+            {["week", "month", "year"].map(
+              (periodStr) =>
+                period === periodStr && (
+                  <p key={period} className={`text-xs ${violationsCountChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                    {violationsCountChange >= 0 ? "+" + violationsCountChange : violationsCountChange}% from last {period}
+                  </p>
+                ),
+            )}
           </CardContent>
         </Card>
-        <Card className="h-[105px]">
+        <Card>
           <CardHeader className="flex flex-col space-y-0 pb-0 pt-4">
             <CardTitle className="flex flex-row items-center justify-between space-y-0 text-sm font-medium">
               Violation Revenue
@@ -118,11 +145,23 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-2">
-            <div className="text-xl font-bold">${violationRevenue}</div>
-            <p className="text-xs text-red-500">{violationRevenueChange}% from last month</p>
+            <div className="text-xl font-bold">${violationRevenue.toFixed(2)}</div>
+            {period === "three_month" && (
+              <p className={`text-xs ${violationRevenueChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                {violationRevenueChange >= 0 ? "+" + violationRevenueChange : violationRevenueChange}% from last 90 days
+              </p>
+            )}
+            {["week", "month", "year"].map(
+              (periodStr) =>
+                period === periodStr && (
+                  <p key={period} className={`text-xs ${violationRevenueChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                    {violationRevenueChange >= 0 ? "+" + violationRevenueChange : violationRevenueChange}% from last {period}
+                  </p>
+                ),
+            )}
           </CardContent>
         </Card>
-        <Card className="h-[105px]">
+        <Card>
           <CardHeader className="flex flex-col space-y-0 pb-0 pt-4">
             <CardTitle className="flex flex-row items-center justify-between space-y-0 text-sm font-medium">
               Enforcement Comission
@@ -141,11 +180,25 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-2">
-            <div className="text-xl font-bold">${enforcementCommission}</div>
-            <p className="text-xs text-green-500">+{enforcementCommissionChange}% since last month</p>
+            <div className="text-xl font-bold">${enforcementCommission.toFixed(2)}</div>
+            {period === "three_month" && (
+              <p className={`text-xs ${enforcementCommissionChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                {enforcementCommissionChange >= 0 ? "+" + enforcementCommissionChange : enforcementCommissionChange}% from last 90
+                days
+              </p>
+            )}
+            {["week", "month", "year"].map(
+              (periodStr) =>
+                period === periodStr && (
+                  <p key={period} className={`text-xs ${enforcementCommissionChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                    {enforcementCommissionChange >= 0 ? "+" + enforcementCommissionChange : enforcementCommissionChange}% from
+                    last {period}
+                  </p>
+                ),
+            )}
           </CardContent>
         </Card>
-        <Card className="h-[105px]">
+        <Card>
           <CardHeader className="flex flex-col space-y-0 pb-0 pt-4">
             <CardTitle className="flex flex-row items-center justify-between space-y-0 text-sm font-medium">
               Processing Fees
@@ -164,8 +217,20 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-2">
-            <div className="text-xl font-bold">${processingFees}</div>
-            <p className="text-xs text-green-500">+{processingFeesChange}% since last hour</p>
+            <div className="text-xl font-bold">${processingFees.toFixed(2)}</div>
+            {period === "three_month" && (
+              <p className={`text-xs ${processingFeesChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                {processingFeesChange >= 0 ? "+" + processingFeesChange : processingFeesChange}% from last 90 days
+              </p>
+            )}
+            {["week", "month", "year"].map(
+              (periodStr) =>
+                period === periodStr && (
+                  <p key={period} className={`text-xs ${processingFeesChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                    {processingFeesChange >= 0 ? "+" + processingFeesChange : processingFeesChange}% from last {period}
+                  </p>
+                ),
+            )}
           </CardContent>
         </Card>
       </div>

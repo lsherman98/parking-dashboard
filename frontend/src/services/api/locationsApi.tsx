@@ -1,5 +1,7 @@
+import { database } from "@/data/database";
+
 interface FilterParams {
-  statuses?: string[];
+  statuses: string[];
 }
 
 export const fetchLocationData = async (params: FilterParams) => {
@@ -8,8 +10,14 @@ export const fetchLocationData = async (params: FilterParams) => {
 
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve("data");
-    }, 1000);
+      const data = database.locations.filter((location) => {
+        if (params.statuses.length > 0) {
+          return params.statuses.includes(location.status);
+        }
+        return true;
+      });
+      resolve(data);
+    }, 200);
   });
 
   const response = await fetch(`/api/locations`);

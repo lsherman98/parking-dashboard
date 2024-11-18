@@ -52,14 +52,22 @@ export const columns: ColumnDef<Permit>[] = [
   {
     accessorKey: "start_date",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Start Date" />,
-    cell: ({ row }) => <div className="w-auto">{row.getValue("start_date")}</div>,
+    cell: ({ row }) => {
+      const date = new Date(row.getValue("start_date"));
+      const formattedDate = date.toLocaleDateString();
+      return <div className="w-auto">{formattedDate}</div>;
+    },
     enableSorting: true,
     enableHiding: true,
   },
   {
     accessorKey: "end_date",
     header: ({ column }) => <DataTableColumnHeader column={column} title="End Date" />,
-    cell: ({ row }) => <div className="w-auto">{row.getValue("end_date")}</div>,
+    cell: ({ row }) => {
+      const date = new Date(row.getValue("end_date"));
+      const formattedDate = date.toLocaleDateString();
+      return <div className="w-auto">{formattedDate}</div>;
+    },
     enableSorting: true,
     enableHiding: true,
   },

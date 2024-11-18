@@ -17,6 +17,39 @@ export const fetchDashboardDataThunk = createAsyncThunk("dashboard/fetchData", a
   });
 });
 
+export interface DashboardData {
+  statsData: {
+    revenueTotal: number;
+    bookingsCount: number;
+    violationsCount: number;
+    occupancyUtilization: number;
+    revenueChange: number;
+    bookingsChange: number;
+    violationsChange: number;
+    occupancyUtilizationChange: number;
+  };
+  dailyStatsData: {
+    date: string;
+    revenue: number;
+    bookings: number;
+    violations: number;
+    parkingSpots: number;
+    activeParkingSpots: number;
+    bookingsChartData: { hour: number; bookings: number }[];
+    occupancyChartData: { hour: number; occupancy: number }[];
+  };
+  revenueData: { data: { total: number; date: string }[]; total: number };
+  bookingsData: { data: { total: number; date: string }[]; total: number };
+  recentTransactionsData: {
+    location: string;
+    licensePlate: string;
+    duration: string;
+    date: string;
+    time: string;
+    amount: number;
+  }[];
+}
+
 interface DashboardState {
   locationFilter: string[];
   weekFilter: string;
@@ -24,7 +57,7 @@ interface DashboardState {
   yearFilter: string;
   rangeFilter: SerializableDateRange | undefined;
   periodFilter: PeriodFilter;
-  data: any;
+  data: DashboardData;
   loading: boolean;
   error: string | null;
 }
@@ -36,7 +69,37 @@ const initialState: DashboardState = {
   yearFilter: currentYear,
   rangeFilter: undefined,
   periodFilter: "month",
-  data: null,
+  data: {
+    statsData: {
+      revenueTotal: 0,
+      bookingsCount: 0,
+      violationsCount: 0,
+      occupancyUtilization: 0,
+      revenueChange: 0,
+      bookingsChange: 0,
+      violationsChange: 0,
+      occupancyUtilizationChange: 0,
+    },
+    dailyStatsData: {
+      date: "",
+      revenue: 0,
+      bookings: 0,
+      violations: 0,
+      parkingSpots: 0,
+      activeParkingSpots: 0,
+      bookingsChartData: [],
+      occupancyChartData: [],
+    },
+    revenueData: {
+      data: [],
+      total: 0,
+    },
+    bookingsData: {
+      data: [],
+      total: 0,
+    },
+    recentTransactionsData: [],
+  },
   loading: false,
   error: null,
 };
@@ -63,6 +126,7 @@ export const dashboardSlice = createSlice({
       state.yearFilter = action.payload;
     },
     setRangeFilter: (state, action: PayloadAction<SerializableDateRange | undefined>) => {
+      console.log(action.payload);
       state.rangeFilter = action.payload;
     },
     setPeriodFilter: (state, action: PayloadAction<PeriodFilter>) => {

@@ -24,17 +24,18 @@ import { DataTablePagination } from "@/components/data-table-pagination";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  stats: any;
 }
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, stats }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
-  const activePermits = 14;
-  const requestedPermits = 42;
-  const expiredPermits = 23;
+  const activePermits = stats.activePermits;
+  const requestedPermits = stats.requestedPermits;
+  const expiredPermits = stats.expiredPermits;
 
   const table = useReactTable({
     data,

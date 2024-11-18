@@ -31,7 +31,7 @@ export function RevenueChart({ ...props }: any) {
         <div className="flex">
           <div className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-3 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-4">
             <span className="text-xs text-muted-foreground">Total</span>
-            <span className="text-md font-bold leading-none">${revenueChartData.total.toLocaleString()}</span>
+            <span className="text-md font-bold leading-none">${revenueChartData.total.toFixed(2)}</span>
           </div>
         </div>
       </CardHeader>
@@ -59,7 +59,7 @@ export function RevenueChart({ ...props }: any) {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              minTickGap={32}
+              minTickGap={0}
               tickFormatter={(value) => {
                 const date = new Date(value);
                 return date.toLocaleDateString("en-US", {

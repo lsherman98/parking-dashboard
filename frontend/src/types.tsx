@@ -1,4 +1,5 @@
 import { DateRange } from "react-day-picker";
+import { SerializableDateRange } from "./store/slices/dashboardSlice";
 
 export type Status = {
   value: string;
@@ -16,7 +17,7 @@ export type DashboardToolbarProps = {
   weekFilter: string;
   monthFilter: string;
   yearFilter: string;
-  rangeFilter: DateRange | undefined;
+  rangeFilter: SerializableDateRange | undefined;
   handleLocationChange: (value: string[]) => void;
   handlePeriodChange: (value: PeriodFilter) => void;
   handleWeekChange: (value: string) => void;
@@ -29,7 +30,7 @@ export type DashboardChartProps = {
   selectedWeek: string;
   selectedMonth: string;
   selectedYear: string;
-  selectedRange: DateRange | undefined;
+  selectedRange: SerializableDateRange | undefined;
   period: PeriodFilter;
   data?: any;
 };

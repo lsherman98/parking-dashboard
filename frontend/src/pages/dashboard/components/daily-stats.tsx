@@ -5,23 +5,22 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
 import DailyBookingsChart from "./daily-bookings-chart";
 import DailyOccupancyChart from "./daily-occupancy-chart";
-import { dailyBookingsChartData, dailyOccupancyChartData } from "@/data";
 
 export default function DailyStats({data}: any) {
     const [currentTab, setCurrentTab] = useState("bookings");
     
-    const dayRevenueTotal = 312;
-    const dayBookingsTotal = 15;
-    const dayViolationCount = 2;
-    const parkingSpotsTotal = 26;
-    const activeParkingSpotsTotal = 15;
+    const dayRevenueTotal = data.revenue;
+    const dayBookingsTotal = data.bookings;
+    const dayViolationCount = data.violations;
+    const parkingSpotsTotal = data.parkingSpots;
+    const activeParkingSpotsTotal = data.activeParkingSpots;
 
     return (
       <Card className="h-[305px]">
         <CardHeader className="pb-2">
           <div className="flex justify-between">
             <CardTitle>Today</CardTitle>
-            <CardTitle className="text-muted-foreground">Thursday, November 7, 2024</CardTitle>
+            <CardTitle className="text-muted-foreground">{data.date}</CardTitle>
           </div>
           <div className="flex justify-between">
             <CardDescription>Snapshot of today's activity.</CardDescription>
@@ -45,7 +44,7 @@ export default function DailyStats({data}: any) {
                   <div>
                     <p className="text-sm font-medium leading-none">Revenue</p>
                   </div>
-                  <div className="text-sm font-medium">${dayRevenueTotal}</div>
+                  <div className="text-sm font-medium">${dayRevenueTotal.toFixed(2)}</div>
                 </div>
               </Card>
               <Card className="w-40 px-4 py-2">
@@ -68,14 +67,14 @@ export default function DailyStats({data}: any) {
             <div className="col-span-3">
               {
                 {
-                  bookings: <DailyBookingsChart data={dailyBookingsChartData} />,
-                  occupancy: <DailyOccupancyChart data={dailyOccupancyChartData} />,
+                  bookings: <DailyBookingsChart data={data.bookingsChartData} />,
+                  occupancy: <DailyOccupancyChart data={data.occupancyChartData} />,
                 }[currentTab]
               }
               <div className="mt-1 flex w-full justify-end pr-4">
                 <div className="w-[85%]">
                   <Progress
-                    value={60}
+                    value={(activeParkingSpotsTotal/parkingSpotsTotal) * 100}
                     className="w-full [&>div]:bg-blue-500" // Change blue-500 to any color you want
                   />
                   <div className="mt-1 flex justify-between">

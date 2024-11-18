@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { fetchPermitData } from "@/services/api/permitsApi";
+import exp from "constants";
 
 export const fetchPermitDataThunk = createAsyncThunk("permits/fetchData", async (_, { getState }) => {
   const state = getState() as RootState;
@@ -14,7 +15,10 @@ export const fetchPermitDataThunk = createAsyncThunk("permits/fetchData", async 
 interface PermitsState {
   locationFilter: string[];
   statusFilter: string[];
-  data: any;
+  data: {
+    tableData: any[];
+    stats: any;
+  };
   loading: boolean;
   error: string | null;
 }
@@ -22,7 +26,14 @@ interface PermitsState {
 const initialState: PermitsState = {
   locationFilter: [],
   statusFilter: [],
-  data: null,
+  data: {
+    tableData: [],
+    stats: {
+      activePermits: 0,
+      requestedPermits: 0,
+      expiredPermits: 0,
+    }
+  },
   loading: false,
   error: null,
 };

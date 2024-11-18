@@ -26,7 +26,10 @@ interface ReservationsState {
   rangeFilter: SerializableDateRange | undefined;
   periodFilter: PeriodFilter;
   statusFilter: string[];
-  data: any;
+  data: {
+    tableData: any[];
+    stats: any;
+  };
   loading: boolean;
   error: string | null;
 }
@@ -39,7 +42,15 @@ const initialState: ReservationsState = {
   rangeFilter: undefined,
   periodFilter: "month",
   statusFilter: [],
-  data: null,
+  data: {
+    tableData: [],
+    stats: {
+      reservationsCount: 0,
+      occupancy: 0,
+      reservationCountChange: 0,
+      occupancyChange: 0,
+    },
+  },
   loading: false,
   error: null,
 };
@@ -72,7 +83,7 @@ export const reservationsSlice = createSlice({
       state.periodFilter = action.payload;
     },
     setStatusFilter: (state, action: PayloadAction<string[]>) => {
-      state.locationFilter = action.payload;
+      state.statusFilter = action.payload;
     },
   },
   extraReducers: (builder) => {

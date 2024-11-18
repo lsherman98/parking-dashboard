@@ -5,9 +5,10 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { IconRefresh } from "@tabler/icons-react";
 import { Button } from "@/components/custom/button";
 import { DashboardToolbarProps, PeriodFilter } from "@/types";
-import { locations, weeks, years } from "@/data";
+import { weeks, years } from "@/data";
 import { useAppDispatch } from "@/store/hooks";
 import { fetchDashboardDataThunk } from "@/store/slices/dashboardSlice";
+import { database } from "@/data/database";
 
 export default function DashboardToolbar(toolbarProps: DashboardToolbarProps) {
   const dispatch = useAppDispatch();
@@ -33,7 +34,7 @@ export default function DashboardToolbar(toolbarProps: DashboardToolbarProps) {
   return (
     <div className="flex flex-wrap items-center gap-2 sm:my-4">
       <MultiSelect
-        options={locations.map((location) => ({ label: location.location_code, value: location.location_code }))}
+        options={database.locations.map((location) => ({ label: location.location_code, value: location.location_code }))}
         onValueChange={handleLocationChange}
         defaultValue={locationFilter}
         placeholder="Locations"
@@ -67,7 +68,17 @@ export default function DashboardToolbar(toolbarProps: DashboardToolbarProps) {
           </TabsTrigger>
         </TabsList>
       </Tabs>
-      {periodFilter === "range" && <DatePickerWithRange date={rangeFilter} onDateChange={handleRangeChange} disabled={loading} />}
+      {periodFilter === "range" && (
+        <DatePickerWithRange
+          date={
+            rangeFilter
+              ? { from: rangeFilter.from ? new Date(rangeFilter.from) : undefined, to: rangeFilter.to ? new Date(rangeFilter.to) : undefined }
+              : undefined
+          }
+          onDateChange={handleRangeChange}
+          disabled={loading}
+        />
+      )}
       {periodFilter === "week" && (
         <Select value={weekFilter} onValueChange={handleWeekChange} disabled={loading}>
           <SelectTrigger className="w-36 shadow-none">

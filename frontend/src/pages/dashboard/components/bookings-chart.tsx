@@ -31,7 +31,7 @@ export function BookingsChart({ ...props }: any) {
         <div className="flex">
           <div className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-3 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-4">
             <span className="text-xs text-muted-foreground">Total</span>
-            <span className="text-md font-bold leading-none">{bookingsChartData.total.toLocaleString()}</span>
+            <span className="text-md font-bold leading-none">{bookingsChartData.total}</span>
           </div>
         </div>
       </CardHeader>
@@ -52,13 +52,20 @@ export function BookingsChart({ ...props }: any) {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              minTickGap={32}
+              minTickGap={0}
               tickFormatter={(value) => {
-                const date = new Date(value);
-                return date.toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                });
+                if (period === "year") {
+                  const date = new Date(value);
+                  return date.toLocaleDateString("en-US", {
+                    month: "short",
+                  });
+                } else {
+                  const date = new Date(value);
+                  return date.toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                  });
+                }
               }}
             />
             <ChartTooltip
@@ -67,11 +74,18 @@ export function BookingsChart({ ...props }: any) {
                   className="w-[150px]"
                   nameKey="bookings"
                   labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    });
+                    if (period === "year") {
+                      const date = new Date(value);
+                      return date.toLocaleDateString("en-US", {
+                        month: "short",
+                      });
+                    } else {
+                      return new Date(value).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      });
+                    }
                   }}
                 />
               }

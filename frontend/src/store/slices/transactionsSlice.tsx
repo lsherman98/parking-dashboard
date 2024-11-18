@@ -26,7 +26,10 @@ interface TransactionsState {
   rangeFilter: SerializableDateRange | undefined;
   periodFilter: PeriodFilter;
   statusFilter: string[];
-  data: any;
+  data: {
+    tableData: any[];
+    stats: any;
+  };
   loading: boolean;
   error: string | null;
 }
@@ -39,7 +42,21 @@ const initialState: TransactionsState = {
   rangeFilter: undefined,
   periodFilter: "month",
   statusFilter: [],
-  data: null,
+  data: {
+    tableData: [],
+    stats: {
+      transactionsCount: 0,
+      violationsCount: 0,
+      violationRevenue: 0,
+      enforcementCommission: 0,
+      processingFees: 0,
+      transactionCountChange: 0,
+      violationsCountChange: 0,
+      violationRevenueChange: 0,
+      enforcementCommissionChange: 0,
+      processingFeesChange: 0,
+    },
+  },
   loading: false,
   error: null,
 };

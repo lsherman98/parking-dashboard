@@ -12,8 +12,8 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/custom/button";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { locations } from "@/data";
 import { Input } from "@/components/ui/input";
+import { database } from "@/data/database";
 
 export default function AddPermitDialog() {
   const createPermitForm = useForm<CreatePermitFormSchema>({
@@ -64,7 +64,7 @@ export default function AddPermitDialog() {
                             <SelectValue>{field.value ? field.value : "Select Location"}</SelectValue>
                           </SelectTrigger>
                           <SelectContent>
-                            {locations.map((location) => {
+                            {database.locations.map((location) => {
                               return (
                                 <DropdownMenuItem
                                   key={location.location_code}

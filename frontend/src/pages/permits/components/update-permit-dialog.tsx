@@ -12,7 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/custom/button";
-import { locations } from "@/data";
+import { database } from "@/data/database";
 
 export default function UpdatePermitDialog({ permit }: { permit: any }) {
   const createPermitForm = useForm<CreatePermitFormSchema>({
@@ -61,7 +61,7 @@ export default function UpdatePermitDialog({ permit }: { permit: any }) {
                             <SelectValue>{field.value ? field.value : "Select Location"}</SelectValue>
                           </SelectTrigger>
                           <SelectContent>
-                            {locations.map((location) => {
+                            {database.locations.map((location) => {
                               return (
                                 <DropdownMenuItem
                                   key={location.location_code}

@@ -8,12 +8,12 @@ import { statuses } from "../data/data";
 import { MultiSelect } from "@/components/custom/multi-select";
 import { useEffect } from "react";
 
-import { locations } from "@/data";
 import AddPermitDialog from "./add-permit-dialog";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchPermitDataThunk, setLocationFilter, setStatusFilter } from "@/store/slices/permitsSlice";
 import { IconRefresh } from "@tabler/icons-react";
 import { DataTableFacetedFilter } from "@/components/data-table-faceted-filter";
+import { database } from "@/data/database";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -43,7 +43,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
         disabled={loading}
       />
       <MultiSelect
-        options={locations.map((location) => ({ label: location.location_code, value: location.location_code }))}
+        options={database.locations.map((location) => ({ label: location.location_code, value: location.location_code }))}
         onValueChange={handleLocationChange}
         defaultValue={locationFilter}
         placeholder="Locations"

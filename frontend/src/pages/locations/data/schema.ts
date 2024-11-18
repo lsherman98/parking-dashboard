@@ -3,8 +3,8 @@ import { z } from 'zod'
 // We're keeping a simple non-relational schema here.
 // IRL, you will have a schema for your data models.
 export const locationSchema = z.object({
-  id: z.string(),
-  status: z.string(),
+  id: z.number(),
+  status: z.enum(['active', 'deactivated']),
   location_code: z.string(),
   address: z.string(),
   city: z.string(),

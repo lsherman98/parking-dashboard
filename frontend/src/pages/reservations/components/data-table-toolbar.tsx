@@ -9,9 +9,9 @@ import { MultiSelect } from "@/components/custom/multi-select";
 import { DatePickerWithRange } from "@/components/ui/date-picker-with-range";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectItem } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { Input } from "@/components/ui/input";
-import { locations, weeks, years } from "@/data";
+import { weeks, years } from "@/data";
 import { DateRange } from "react-day-picker";
 import { PeriodFilter } from "@/types";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -26,6 +26,7 @@ import {
   setYearFilter,
 } from "@/store/slices/reservationsSlice";
 import { DataTableFacetedFilter } from "@/components/data-table-faceted-filter";
+import { database } from "@/data/database";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -34,41 +35,25 @@ interface DataTableToolbarProps<TData> {
 export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>) {
   const dispatch = useAppDispatch();
 
-  const {
-    locationFilter,
-    weekFilter,
-    monthFilter,
-    yearFilter,
-    periodFilter,
-    rangeFilter: rawRangeFilter,
-    statusFilter,
-    loading,
-  } = useAppSelector((state) => state.reservations);
-
-  const rangeFilter = useMemo(() => {
-    return rawRangeFilter
-      ? {
-          from: rawRangeFilter.from ? new Date(rawRangeFilter.from) : undefined,
-          to: rawRangeFilter.to ? new Date(rawRangeFilter.to) : undefined,
-        }
-      : undefined;
-  }, [rawRangeFilter]);
+  const { locationFilter, weekFilter, monthFilter, yearFilter, periodFilter, rangeFilter, statusFilter, loading } =
+    useAppSelector((state) => state.reservations);
 
   const handleLocationChange = (location: string[]) => dispatch(setLocationFilter(location));
-    const handlePeriodChange = (period: PeriodFilter) => {
-      if (period === "range") return;
-      dispatch(setPeriodFilter(period));
-    };
+  const handlePeriodChange = (period: PeriodFilter) => dispatch(setPeriodFilter(period));
   const handleWeekChange = (week: string) => dispatch(setWeekFilter(week));
   const handleMonthChange = (month: string) => dispatch(setMonthFilter(month));
   const handleYearChange = (year: string) => dispatch(setYearFilter(year));
   const handleRangeChange = (range: DateRange | undefined) => {
     const serializableRange = range ? { from: range.from?.toISOString(), to: range.to?.toISOString() } : undefined;
     dispatch(setRangeFilter(serializableRange));
+    if (serializableRange?.from && serializableRange?.to) {
+      dispatch(fetchReservationDataThunk());
+    }
   };
   const handleStatusChange = (selectedValues: string[]) => dispatch(setStatusFilter(selectedValues));
 
   useEffect(() => {
+    if (periodFilter === "range") return;
     dispatch(fetchReservationDataThunk());
   }, [locationFilter, weekFilter, monthFilter, yearFilter, rangeFilter, periodFilter, statusFilter]);
 
@@ -84,7 +69,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
         disabled={loading}
       />
       <MultiSelect
-        options={locations.map((location) => ({ label: location.location_code, value: location.location_code }))}
+        options={database.locations.map((location) => ({ label: location.location_code, value: location.location_code }))}
         onValueChange={handleLocationChange}
         defaultValue={locationFilter}
         placeholder="Locations"
@@ -118,7 +103,20 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
           </TabsTrigger>
         </TabsList>
       </Tabs>
-      {periodFilter === "range" && <DatePickerWithRange date={rangeFilter} onDateChange={handleRangeChange} disabled={loading} />}
+      {periodFilter === "range" && (
+        <DatePickerWithRange
+          date={
+            rangeFilter
+              ? {
+                  from: rangeFilter.from ? new Date(rangeFilter.from) : undefined,
+                  to: rangeFilter.to ? new Date(rangeFilter.to) : undefined,
+                }
+              : undefined
+          }
+          onDateChange={handleRangeChange}
+          disabled={loading}
+        />
+      )}
       {periodFilter === "week" && (
         <Select value={weekFilter} onValueChange={handleWeekChange} disabled={loading}>
           <SelectTrigger className="w-36 shadow-none">

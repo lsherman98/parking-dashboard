@@ -43,30 +43,42 @@ export const columns: ColumnDef<Violation>[] = [
     enableHiding: true,
   },
   {
-    accessorKey: "location",
+    accessorKey: "location_code",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Location" />,
-    cell: ({ row }) => <div className="w-auto">{row.getValue("location")}</div>,
+    cell: ({ row }) => <div className="w-auto">{row.getValue("location_code")}</div>,
     enableSorting: true,
     enableHiding: false,
   },
   {
     accessorKey: "date",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Date" />,
-    cell: ({ row }) => <div className="w-auto">{row.getValue("date")}</div>,
+    cell: ({ row }) => {
+      const date = new Date(row.getValue("date"));
+      const formattedDate = date.toLocaleDateString();
+      return <div className="w-auto">{formattedDate}</div>;
+    },
     enableSorting: true,
     enableHiding: true,
-  },
-  {
+    },
+    {
     accessorKey: "session_start",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Session Start" />,
-    cell: ({ row }) => <div className="w-auto">{row.getValue("session_start")}</div>,
+    cell: ({ row }) => {
+      const date = new Date(row.getValue("session_start"));
+      const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      return <div className="w-auto">{formattedTime}</div>;
+    },
     enableSorting: false,
     enableHiding: true,
-  },
-  {
+    },
+    {
     accessorKey: "session_end",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Session End" />,
-    cell: ({ row }) => <div className="w-auto">{row.getValue("session_end")}</div>,
+    cell: ({ row }) => {
+      const date = new Date(row.getValue("session_end"));
+      const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      return <div className="w-auto">{formattedTime}</div>;
+    },
     enableSorting: false,
     enableHiding: true,
   },

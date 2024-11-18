@@ -19,7 +19,7 @@ interface LocationsState {
 
 const initialState: LocationsState = {
   statusFilter: [],
-  data: null,
+  data: [],
   loading: false,
   error: null,
 };

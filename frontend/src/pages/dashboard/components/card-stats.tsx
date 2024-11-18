@@ -1,15 +1,15 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-export default function CardStats({ data }: any) {
-  const revenueTotal = 1621;
-  const bookingsCount = 128;
-  const violationsCount = 45;
-  const occupancyUtilization = 94;
+export default function CardStats({ data, periodFilter }: any) {
+  const revenueTotal = data.revenueTotal;
+  const bookingsCount = data.bookingsCount;
+  const violationsCount = data.violationsCount;
+  const occupancyUtilization = data.occupancyUtilization;
 
-  const revenueChange = 20.1;
-  const bookingsChange = 180.1;
-  const violationsChange = -19;
-  const occupancyUtilizationChange = 8;
+  const revenueChange = data.revenueChange;
+  const bookingsChange = data.bookingsChange;
+  const violationsChange = data.violationsChange;
+  const occupancyUtilizationChange = data.occupancyUtilizationChange;
 
   return (
     <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -33,8 +33,20 @@ export default function CardStats({ data }: any) {
           <CardDescription className="text-[10px] text-muted-foreground">Revenue after fees & tax.</CardDescription>
         </CardHeader>
         <CardContent className="pt-2">
-          <div className="text-xl font-bold">${revenueTotal}</div>
-          <p className="text-xs text-green-500">+{revenueChange}% from last month</p>
+          <div className="text-xl font-bold">${revenueTotal.toFixed(2)}</div>
+          {periodFilter === "three_month" && (
+            <p className={`text-xs ${revenueChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+              {revenueChange >= 0 ? "+" + revenueChange : revenueChange}% from last 90 days
+            </p>
+          )}
+          {["week", "month", "year"].map(
+            (period) =>
+              periodFilter === period && (
+                <p key={period} className={`text-xs ${revenueChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                  {revenueChange >= 0 ? "+" + revenueChange : revenueChange}% from last {period}
+                </p>
+              ),
+          )}
         </CardContent>
       </Card>
       <Card>
@@ -62,7 +74,19 @@ export default function CardStats({ data }: any) {
         </CardHeader>
         <CardContent className="pt-2">
           <div className="text-xl font-bold">{bookingsCount}</div>
-          <p className="text-xs text-green-500">+{bookingsChange}% from last month</p>
+          {periodFilter === "three_month" && (
+            <p className={`text-xs ${bookingsChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+              {bookingsChange >= 0 ? "+" + bookingsChange : bookingsChange}% from last 90 days
+            </p>
+          )}
+          {["week", "month", "year"].map(
+            (period) =>
+              periodFilter === period && (
+                <p key={period} className={`text-xs ${bookingsChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                  {bookingsChange >= 0 ? "+" + bookingsChange : bookingsChange}% from last {period}
+                </p>
+              ),
+          )}
         </CardContent>
       </Card>
       <Card>
@@ -86,7 +110,19 @@ export default function CardStats({ data }: any) {
         </CardHeader>
         <CardContent className="pt-2">
           <div className="text-xl font-bold">{violationsCount}</div>
-          <p className="text-xs text-red-500">{violationsChange}% from last month</p>
+          {periodFilter === "three_month" && (
+            <p className={`text-xs ${violationsChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+              {violationsChange >= 0 ? "+" + violationsChange : violationsChange}% from last 90 days
+            </p>
+          )}
+          {["week", "month", "year"].map(
+            (period) =>
+              periodFilter === period && (
+                <p key={period} className={`text-xs ${violationsChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                  {violationsChange >= 0 ? "+" + violationsChange : violationsChange}% from last {period}
+                </p>
+              ),
+          )}
         </CardContent>
       </Card>
       <Card>
@@ -109,8 +145,20 @@ export default function CardStats({ data }: any) {
           <CardDescription className="text-[10px] text-muted-foreground">Bookable hours / Booked hours</CardDescription>
         </CardHeader>
         <CardContent className="pt-2">
-          <div className="text-xl font-bold">{occupancyUtilization}%</div>
-          <p className="text-xs text-green-500">+{occupancyUtilizationChange}% from last month</p>
+          <div className="text-xl font-bold">{occupancyUtilization.toFixed(2)}%</div>
+          {periodFilter === "three_month" && (
+            <p className={`text-xs ${occupancyUtilizationChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+              {occupancyUtilizationChange >= 0 ? "+" + occupancyUtilizationChange : occupancyUtilizationChange}% from last 90 days
+            </p>
+          )}
+          {["week", "month", "year"].map(
+            (period) =>
+              periodFilter === period && (
+                <p key={period} className={`text-xs ${occupancyUtilizationChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                  {occupancyUtilizationChange >= 0 ? "+" + occupancyUtilizationChange : occupancyUtilizationChange}% from last {period}
+                </p>
+              ),
+          )}
         </CardContent>
       </Card>
     </div>
