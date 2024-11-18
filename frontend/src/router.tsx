@@ -21,7 +21,7 @@ const router = createBrowserRouter([
                 }),
             },
             {
-                path: "/dashboard",
+                path: "dashboard",
                 lazy: async () => ({
                     Component: (await import("./pages/dashboard")).default,
                 }),
@@ -56,29 +56,29 @@ const router = createBrowserRouter([
                     Component: (await import("./pages/reservations")).default,
                 }),
             },
-            {
-              path: 'users',
-              lazy: async () => ({
-                Component: (await import('./pages/users')).default,
-              }),
-            },
-            {
-                path: "settings",
-                lazy: async () => ({
-                    Component: (await import("./pages/settings")).default,
-                }),
-                errorElement: <GeneralError />,
-                children: [
-                    {
-                        path: "account",
-                        lazy: async () => ({
-                            Component: (
-                                await import("./pages/settings/account")
-                            ).default,
-                        }),
-                    },
-                ],
-            },
+            // {
+            //   path: 'users',
+            //   lazy: async () => ({
+            //     Component: (await import('./pages/users')).default,
+            //   }),
+            // },
+            // {
+            //     path: "settings",
+            //     lazy: async () => ({
+            //         Component: (await import("./pages/settings")).default,
+            //     }),
+            //     errorElement: <GeneralError />,
+            //     children: [
+            //         {
+            //             path: "account",
+            //             lazy: async () => ({
+            //                 Component: (
+            //                     await import("./pages/settings/account")
+            //                 ).default,
+            //             }),
+            //         },
+            //     ],
+            // },
         ],
     },
 
