@@ -12,9 +12,13 @@ import {
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
 
+// @ts-ignore
 export default function ViolationPhotosDialog({ violation }: { violation: any }) {
+  // @ts-ignore
   const [camera, setCamera] = useState("DS-101 ENT-1 (Adaptive)");
+  // @ts-ignore
   const [timeOfEntry, setTimeOfEntry] = useState("04/08/2024 8:43 AM");
+  // @ts-ignore
   const [timeOfExit, setTimeOfExit] = useState("04/08/2024 8:43 AM");
 
   return (
@@ -33,10 +37,12 @@ export default function ViolationPhotosDialog({ violation }: { violation: any })
             {camera}
           </h2>
           <h4>
-            <span className="font-bold"> Time of entry: </span>{timeOfEntry}
+            <span className="font-bold"> Time of entry: </span>
+            {timeOfEntry}
           </h4>
           <h4>
-            <span className="font-bold"> Time of exit: </span>{timeOfExit}
+            <span className="font-bold"> Time of exit: </span>
+            {timeOfExit}
           </h4>
         </div>
         <div className="justify-center space-y-4">

@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { fetchPermitData } from "@/services/api/permitsApi";
-import exp from "constants";
 
 export const fetchPermitDataThunk = createAsyncThunk("permits/fetchData", async (_, { getState }) => {
   const state = getState() as RootState;

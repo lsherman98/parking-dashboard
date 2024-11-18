@@ -2,10 +2,11 @@ import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 
 import { Button } from "@/components/custom/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { reservationSchema } from "../data/schema";
+// import { reservationSchema } from "../data/schema";
 
+// @ts-ignore
 export function DataTableRowActions({ row }: { row: any }) {
-  const reservation = reservationSchema.parse(row.original);
+  // const reservation = reservationSchema.parse(row.original);
 
   return (
     <DropdownMenu>

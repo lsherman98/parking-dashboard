@@ -13,6 +13,7 @@ import { states } from "@/data";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/custom/button";
 
+// @ts-ignore
 export default function UpdateLocationDialog({ location }: { location: any }) {
   const updateLocationForm = useForm<CreateLocationFormSchema>({
     resolver: zodResolver(createLocationFormSchema),

@@ -1,4 +1,4 @@
-import { IconCalendarClock, IconCurrencyDollar, IconGavel, IconLayoutDashboard, IconMapPin, IconSettings, IconTag, IconUsers } from '@tabler/icons-react'
+import { IconCalendarClock, IconCurrencyDollar, IconGavel, IconLayoutDashboard, IconMapPin, IconTag } from '@tabler/icons-react'
 
 export interface NavLink {
   title: string

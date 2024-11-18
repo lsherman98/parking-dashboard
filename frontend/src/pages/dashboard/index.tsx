@@ -1,6 +1,6 @@
 import { Layout } from "@/components/custom/layout";
 import { UserNav } from "@/components/user-nav";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { BookingsChart } from "./components/bookings-chart";
 import { RevenueChart } from "./components/revenue-chart";
 import { TransactionsTable } from "./components/transactions-table";

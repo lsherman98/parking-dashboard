@@ -14,6 +14,7 @@ import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/custom/button";
 import { database } from "@/data/database";
 
+// @ts-ignore
 export default function UpdatePermitDialog({ permit }: { permit: any }) {
   const createPermitForm = useForm<CreatePermitFormSchema>({
     resolver: zodResolver(createPermitFormSchema),

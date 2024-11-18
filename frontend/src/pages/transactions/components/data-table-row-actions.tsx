@@ -8,10 +8,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { transactionSchema } from '../data/schema'
+// import { transactionSchema } from '../data/schema'
 
+// @ts-ignore
 export function DataTableRowActions({row}: {row: any}) {
-  const transaction = transactionSchema.parse(row.original)
+  // const transaction = transactionSchema.parse(row.original)
 
   return (
     <DropdownMenu>

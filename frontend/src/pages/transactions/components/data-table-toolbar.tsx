@@ -9,7 +9,7 @@ import { MultiSelect } from "@/components/custom/multi-select";
 import { DatePickerWithRange } from "@/components/ui/date-picker-with-range";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectItem } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { weeks, years } from "@/data";
 import { DateRange } from "react-day-picker";
