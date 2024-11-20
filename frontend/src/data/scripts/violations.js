@@ -1,7 +1,7 @@
-import fs from 'fs';
+import fs from "fs";
 
 const STATUS_OPTIONS = ["paid", "cancelled", "not_sent", "sent"];
-const LOCATIONS = ["TX001", "TX002", "IL003"];;
+const LOCATIONS = ["TX001", "TX002", "IL003"];
 const LICENSE_PLATES = ["ABC123", "XYZ789", "DEF456", "GHI789", "JKL012", "MNO345"];
 
 const randomBetween = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
@@ -41,12 +41,12 @@ export function createViolations(config) {
 const violations = createViolations({
   count: 700,
   dateRange: {
-    start: new Date('2023-01-01'),
-    end: new Date('2023-12-31')
+    start: new Date("2023-01-01"),
+    end: new Date("2023-12-31"),
   },
   sessionDurationRange: { min: 30, max: 240 },
-  ticketAmountRange: { min: 25, max: 150 }
-})
+  ticketAmountRange: { min: 25, max: 150 },
+});
 
 fs.writeFile(
   "/Users/levisherman/Documents/coding-projects/projects/parking-dashboard/frontend/src/data/violations.json",

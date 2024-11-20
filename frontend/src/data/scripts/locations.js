@@ -1,9 +1,9 @@
-const states = ['FL', 'CA', 'NY', 'TX', 'IL', 'PA'];
-const cities = ['Miami', 'Orlando', 'Tampa', 'Jacksonville', 'Gainesville', 'Tallahassee'];
-const streetNames = ['Main St', 'Oak Ave', 'Maple Rd', 'Cedar Ln', 'Pine Dr', 'Elm St'];
+const states = ["FL", "CA", "NY", "TX", "IL", "PA"];
+const cities = ["Miami", "Orlando", "Tampa", "Jacksonville", "Gainesville", "Tallahassee"];
+const streetNames = ["Main St", "Oak Ave", "Maple Rd", "Cedar Ln", "Pine Dr", "Elm St"];
 
 function generateLocationCode(index, statePrefix) {
-  return `${statePrefix}${String(index + 1).padStart(3, '0')}`;
+  return `${statePrefix}${String(index + 1).padStart(3, "0")}`;
 }
 
 function getRandomItem(array) {
@@ -19,16 +19,12 @@ function generateZipCode() {
   return String(Math.floor(Math.random() * 90000) + 10000);
 }
 
-function generateLocations(
-  count = 7,
-  minLotSize = 10,
-  maxLotSize = 75
-) {
+function generateLocations(count = 7, minLotSize = 10, maxLotSize = 75) {
   return Array.from({ length: count }, (_, i) => {
     const state = getRandomItem(states);
     return {
       id: i + 1,
-      status: Math.random() > 0.2 ? 'active' : 'deactivated',
+      status: Math.random() > 0.2 ? "active" : "deactivated",
       location_code: generateLocationCode(i, state),
       address: generateAddress(),
       city: getRandomItem(cities),

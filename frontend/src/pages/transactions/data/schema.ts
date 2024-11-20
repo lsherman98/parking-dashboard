@@ -1,10 +1,10 @@
-import { z } from 'zod'
+import { z } from "zod";
 
 // We're keeping a simple non-relational schema here.
 // IRL, you will have a schema for your data models.
 export const transactionSchema = z.object({
   id: z.number(),
-  status: z.enum(['paid', 'pending', 'refunded', 'failed', 'cancelled', 'violation']),
+  status: z.enum(["paid", "pending", "refunded", "failed", "cancelled", "violation"]),
   location_code: z.string(),
   date: z.string(),
   hours: z.number(),
@@ -20,6 +20,6 @@ export const transactionSchema = z.object({
   service_fee: z.number(),
   payment_gateway_fee: z.number(),
   total: z.number(),
-})
+});
 
-export type Transaction = z.infer<typeof transactionSchema>
+export type Transaction = z.infer<typeof transactionSchema>;

@@ -26,9 +26,10 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   stats: any;
   period: any;
+  isMobile: boolean;
 }
 
-export function DataTable<TData, TValue>({ columns, data, stats, period }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, stats, period, isMobile }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
@@ -69,57 +70,84 @@ export function DataTable<TData, TValue>({ columns, data, stats, period }: DataT
 
   return (
     <div>
-      <DataTableToolbar table={table} />
-      <div className="mb-4 grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-        <Card className="h-[105px]">
-          <CardHeader className="flex flex-col space-y-0 pb-0 pt-4">
-            <CardTitle className="flex flex-row items-center justify-between space-y-0 text-sm font-medium">
+      <DataTableToolbar table={table} isMobile={isMobile} />
+      {isMobile ? (
+        <div>
+          <Card className="flex items-center justify-between px-4 py-2 w-full mb-2">
+            <div className="flex items-center">
+              <IconCalendarClock className="h-4 w-4 text-muted-foreground mr-2" />
               <div>Total Reservations</div>
-              <IconCalendarClock className="h-4 w-4 text-muted-foreground" />
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pt-2">
-            <div className="text-xl font-bold">{reservationsCount}</div>
-            {period === "three_month" && (
-              <p className={`text-xs ${reservationCountChange >= 0 ? "text-green-500" : "text-red-500"}`}>
-                {reservationCountChange >= 0 ? "+" + reservationCountChange : reservationCountChange}% from last 90 days
-              </p>
-            )}
-            {["week", "month", "year"].map(
-              (periodStr) =>
-                period === periodStr && (
-                  <p key={period} className={`text-xs ${reservationCountChange >= 0 ? "text-green-500" : "text-red-500"}`}>
-                    {reservationCountChange >= 0 ? "+" + reservationCountChange : reservationCountChange}% from last {period}
-                  </p>
-                ),
-            )}
-          </CardContent>
-        </Card>
-        <Card className="h-[105px]">
-          <CardHeader className="flex flex-col space-y-0 pb-0 pt-4">
-            <CardTitle className="flex flex-row items-center justify-between space-y-0 text-sm font-medium">
-              Occupancy
-              <IconParkingCircle className="h-4 w-4 text-muted-foreground" />
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pt-2">
-            <div className="text-xl font-bold">{occupancy.toFixed(2)}%</div>
-            {period === "three_month" && (
-              <p className={`text-xs ${occupancyChange >= 0 ? "text-green-500" : "text-red-500"}`}>
-                {occupancyChange >= 0 ? "+" + occupancyChange : occupancyChange}% from last 90 days
-              </p>
-            )}
-            {["week", "month", "year"].map(
-              (periodStr) =>
-                period === periodStr && (
-                  <p key={period} className={`text-xs ${occupancyChange >= 0 ? "text-green-500" : "text-red-500"}`}>
-                    {occupancyChange >= 0 ? "+" + occupancyChange : occupancyChange}% from last {period}
-                  </p>
-                ),
-            )}
-          </CardContent>
-        </Card>
-      </div>
+            </div>
+            <div>
+              <div className="items-center">
+                <div className="text-lg font-bold">{reservationsCount}</div>
+              </div>
+            </div>
+          </Card>
+          <Card className="flex items-center justify-between px-4 py-2 w-full mb-2">
+            <div className="flex items-center">
+              <IconParkingCircle className="h-4 w-4 text-muted-foreground mr-2" />
+              <div>Occupancy</div>
+            </div>
+            <div>
+              <div className="items-center">
+                <div className="text-lg font-bold">{occupancy.toFixed(2)}%</div>
+              </div>
+            </div>
+          </Card>
+        </div>
+      ) : (
+        <div className="mb-4 grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          <Card className="h-[105px]">
+            <CardHeader className="flex flex-col space-y-0 pb-0 pt-4">
+              <CardTitle className="flex flex-row items-center justify-between space-y-0 text-sm font-medium">
+                <div>Total Reservations</div>
+                <IconCalendarClock className="h-4 w-4 text-muted-foreground" />
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-2">
+              <div className="text-xl font-bold">{reservationsCount}</div>
+              {period === "three_month" && (
+                <p className={`text-xs ${reservationCountChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                  {reservationCountChange >= 0 ? "+" + reservationCountChange : reservationCountChange}% from last 90 days
+                </p>
+              )}
+              {["week", "month", "year"].map(
+                (periodStr) =>
+                  period === periodStr && (
+                    <p key={period} className={`text-xs ${reservationCountChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                      {reservationCountChange >= 0 ? "+" + reservationCountChange : reservationCountChange}% from last {period}
+                    </p>
+                  ),
+              )}
+            </CardContent>
+          </Card>
+          <Card className="h-[105px]">
+            <CardHeader className="flex flex-col space-y-0 pb-0 pt-4">
+              <CardTitle className="flex flex-row items-center justify-between space-y-0 text-sm font-medium">
+                Occupancy
+                <IconParkingCircle className="h-4 w-4 text-muted-foreground" />
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-2">
+              <div className="text-xl font-bold">{occupancy.toFixed(2)}%</div>
+              {period === "three_month" && (
+                <p className={`text-xs ${occupancyChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                  {occupancyChange >= 0 ? "+" + occupancyChange : occupancyChange}% from last 90 days
+                </p>
+              )}
+              {["week", "month", "year"].map(
+                (periodStr) =>
+                  period === periodStr && (
+                    <p key={period} className={`text-xs ${occupancyChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                      {occupancyChange >= 0 ? "+" + occupancyChange : occupancyChange}% from last {period}
+                    </p>
+                  ),
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
       <div className="mb-2 rounded-md border">
         <Table>
           <TableHeader>

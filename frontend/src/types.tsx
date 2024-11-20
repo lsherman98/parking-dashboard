@@ -18,6 +18,7 @@ export type DashboardToolbarProps = {
   monthFilter: string;
   yearFilter: string;
   rangeFilter: SerializableDateRange | undefined;
+  isMobile: boolean;
   handleLocationChange: (value: string[]) => void;
   handlePeriodChange: (value: PeriodFilter) => void;
   handleWeekChange: (value: string) => void;
@@ -63,4 +64,3 @@ export type RecentTransaction = {
   time: string;
   location: string;
 };
-

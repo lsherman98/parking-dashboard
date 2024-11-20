@@ -1,7 +1,8 @@
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { cn } from "@/lib/utils";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
-export default function DailyOccupancyChart({data}: any) {
+export default function DailyOccupancyChart({ data, className }: any) {
   const occupancyChartConfig = {
     bookings: {
       label: "Occupancy",
@@ -10,7 +11,7 @@ export default function DailyOccupancyChart({data}: any) {
   } satisfies ChartConfig;
 
   return (
-    <ChartContainer config={occupancyChartConfig} className="h-[10rem] w-full">
+    <ChartContainer config={occupancyChartConfig} className={cn("h-[10rem] w-full", className)}>
       <AreaChart
         accessibilityLayer
         data={data}
@@ -21,17 +22,17 @@ export default function DailyOccupancyChart({data}: any) {
       >
         <CartesianGrid vertical={false} />
         <XAxis dataKey="hour" tickLine={false} axisLine={false} tickMargin={4} />
-        <YAxis dataKey="occupancy" tickLine={false} axisLine={false} tickMargin={4} tickFormatter={(value) => {
-            return `${value}%`;
-        }}/>
-        <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" className="percent-sign" />} />
-        <Area
+        <YAxis
           dataKey="occupancy"
-          type="natural"
-          fill="var(--color-bookings)"
-          fillOpacity={0.4}
-          stroke="var(--color-bookings)"
+          tickLine={false}
+          axisLine={false}
+          tickMargin={4}
+          tickFormatter={(value) => {
+            return `${value}%`;
+          }}
         />
+        <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" className="percent-sign" />} />
+        <Area dataKey="occupancy" type="natural" fill="var(--color-bookings)" fillOpacity={0.4} stroke="var(--color-bookings)" />
       </AreaChart>
     </ChartContainer>
   );

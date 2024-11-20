@@ -28,7 +28,7 @@ interface ViolationsState {
   statusFilter: string[];
   data: {
     tableData: any[];
-    stats: any
+    stats: any;
   };
   loading: boolean;
   error: string | null;
@@ -88,7 +88,7 @@ export const violationsSlice = createSlice({
     },
     setStatusFilter: (state, action: PayloadAction<string[]>) => {
       state.statusFilter = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -107,7 +107,14 @@ export const violationsSlice = createSlice({
   },
 });
 
-export const { setLocationFilter, setWeekFilter, setMonthFilter, setYearFilter, setRangeFilter, setPeriodFilter, setStatusFilter } =
-  violationsSlice.actions;
+export const {
+  setLocationFilter,
+  setWeekFilter,
+  setMonthFilter,
+  setYearFilter,
+  setRangeFilter,
+  setPeriodFilter,
+  setStatusFilter,
+} = violationsSlice.actions;
 
 export default violationsSlice.reducer;

@@ -1,7 +1,8 @@
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { cn } from "@/lib/utils";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
-export default function DailyBookingsChart({data}: any) {
+export default function DailyBookingsChart({ data, className }: any) {
   const bookingsChartConfig = {
     bookings: {
       label: "Bookings",
@@ -10,7 +11,7 @@ export default function DailyBookingsChart({data}: any) {
   } satisfies ChartConfig;
 
   return (
-    <ChartContainer config={bookingsChartConfig} className="h-[10rem] w-full">
+    <ChartContainer config={bookingsChartConfig} className={cn("h-[10rem] w-full", className)}>
       <AreaChart
         accessibilityLayer
         data={data}
@@ -34,13 +35,7 @@ export default function DailyBookingsChart({data}: any) {
         />
         <YAxis dataKey="bookings" tickLine={false} axisLine={false} tickMargin={4} />
         <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
-        <Area
-          dataKey="bookings"
-          type="natural"
-          fill="var(--color-bookings)"
-          fillOpacity={0.4}
-          stroke="var(--color-bookings)"
-        />
+        <Area dataKey="bookings" type="natural" fill="var(--color-bookings)" fillOpacity={0.4} stroke="var(--color-bookings)" />
       </AreaChart>
     </ChartContainer>
   );

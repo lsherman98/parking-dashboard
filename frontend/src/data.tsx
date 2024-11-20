@@ -6,7 +6,7 @@ export const weeks: string[] = Array.from({ length: 4 }, (_, i) => {
   return `${startDate.getMonth() + 1}/${startDate.getDate()} - ${endDate.getMonth() + 1}/${endDate.getDate()}`;
 });
 export const currentMonth = new Date().toLocaleString("default", { month: "long" });
-export const currentYear = '2023';
+export const currentYear = "2023";
 export const currentWeekIndex = Math.min(Math.floor(new Date().getDate() / 7), 3);
 export const currentWeek = weeks[currentWeekIndex];
 

@@ -25,11 +25,12 @@ import { PeriodFilter } from "@/types";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  stats: any
+  stats: any;
   period: PeriodFilter;
+  isMobile: boolean;
 }
 
-export function DataTable<TData, TValue>({ columns, data, stats, period }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, stats, period, isMobile }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
@@ -74,36 +75,22 @@ export function DataTable<TData, TValue>({ columns, data, stats, period }: DataT
 
   return (
     <div>
-      <DataTableToolbar table={table} />
-      <div className="mb-4 grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <Card className="h-[105px]">
-          <CardHeader className="flex flex-col space-y-0 pb-0 pt-4">
-            <CardTitle className="flex flex-row items-center justify-between space-y-0 text-sm font-medium">
-              Violations
-              <IconGavel className="h-4 w-4 text-muted-foreground" />
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pt-2">
-            <div className="text-xl font-bold">{violationsCount}</div>
-            {period === "three_month" && (
-              <p className={`text-xs ${violationsCountChange >= 0 ? "text-green-500" : "text-red-500"}`}>
-                {violationsCountChange >= 0 ? "+" + violationsCountChange : violationsCountChange}% from last 90 days
-              </p>
-            )}
-            {["week", "month", "year"].map(
-              (periodStr) =>
-                period === periodStr && (
-                  <p key={period} className={`text-xs ${violationsCountChange >= 0 ? "text-green-500" : "text-red-500"}`}>
-                    {violationsCountChange >= 0 ? "+" + violationsCountChange : violationsCountChange}% from last {period}
-                  </p>
-                ),
-            )}
-          </CardContent>
-        </Card>
-        <Card className="h-[105px]">
-          <CardHeader className="flex flex-col space-y-0 pb-0 pt-4">
-            <CardTitle className="flex flex-row items-center justify-between space-y-0 text-sm font-medium">
-              Violation Revenue
+      <DataTableToolbar table={table} isMobile={isMobile} />
+      {isMobile ? (
+        <div>
+          <Card className="flex items-center justify-between px-4 py-2 w-full mb-2">
+            <div className="flex items-center">
+              <IconGavel className="h-4 w-4 text-muted-foreground mr-2" />
+              <div>Violations</div>
+            </div>
+            <div>
+              <div className="items-center">
+                <div className="text-lg font-bold">{violationsCount}</div>
+              </div>
+            </div>
+          </Card>
+          <Card className="flex items-center justify-between px-4 py-2 w-full mb-2">
+            <div className="flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -112,33 +99,20 @@ export function DataTable<TData, TValue>({ columns, data, stats, period }: DataT
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                className="h-4 w-4 text-muted-foreground"
+                className="h-4 w-4 text-muted-foreground mr-2"
               >
                 <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
               </svg>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pt-2">
-            <div className="text-xl font-bold">${violationRevenueTotal.toFixed(2)}</div>
-            {period === "three_month" && (
-              <p className={`text-xs ${violationRevenueChange >= 0 ? "text-green-500" : "text-red-500"}`}>
-                {violationRevenueChange >= 0 ? "+" + violationRevenueChange : violationRevenueChange}% from last 90 days
-              </p>
-            )}
-            {["week", "month", "year"].map(
-              (periodStr) =>
-                period === periodStr && (
-                  <p key={period} className={`text-xs ${violationRevenueChange >= 0 ? "text-green-500" : "text-red-500"}`}>
-                    {violationRevenueChange >= 0 ? "+" + violationRevenueChange : violationRevenueChange}% from last {period}
-                  </p>
-                ),
-            )}
-          </CardContent>
-        </Card>
-        <Card className="h-[105px]">
-          <CardHeader className="flex flex-col space-y-0 pb-0 pt-4">
-            <CardTitle className="flex flex-row items-center justify-between space-y-0 text-sm font-medium">
-              Enforcement Comission
+              <div>Violation Revenue</div>
+            </div>
+            <div>
+              <div className="items-center">
+                <div className="text-lg font-bold">${violationRevenueTotal.toFixed(2)}</div>
+              </div>
+            </div>
+          </Card>
+          <Card className="flex items-center justify-between px-4 py-2 w-full mb-2">
+            <div className="flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -147,35 +121,20 @@ export function DataTable<TData, TValue>({ columns, data, stats, period }: DataT
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                className="h-4 w-4 text-muted-foreground"
+                className="h-4 w-4 text-muted-foreground mr-2"
               >
                 <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
               </svg>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pt-2">
-            <div className="text-xl font-bold">${enforcementCommissionTotal.toFixed(2)}</div>
-            {period === "three_month" && (
-              <p className={`text-xs ${enforcementCommissionChange >= 0 ? "text-green-500" : "text-red-500"}`}>
-                {enforcementCommissionChange >= 0 ? "+" + enforcementCommissionChange : enforcementCommissionChange}% from last 90
-                days
-              </p>
-            )}
-            {["week", "month", "year"].map(
-              (periodStr) =>
-                period === periodStr && (
-                  <p key={period} className={`text-xs ${enforcementCommissionChange >= 0 ? "text-green-500" : "text-red-500"}`}>
-                    {enforcementCommissionChange >= 0 ? "+" + enforcementCommissionChange : enforcementCommissionChange}% from
-                    last {period}
-                  </p>
-                ),
-            )}
-          </CardContent>
-        </Card>
-        <Card className="h-[105px]">
-          <CardHeader className="flex flex-col space-y-0 pb-0 pt-4">
-            <CardTitle className="flex flex-row items-center justify-between space-y-0 text-sm font-medium">
-              Processing Fees
+              <div>Enforcement Comission</div>
+            </div>
+            <div>
+              <div className="items-center">
+                <div className="text-lg font-bold">${enforcementCommissionTotal.toFixed(2)}</div>
+              </div>
+            </div>
+          </Card>
+          <Card className="flex items-center justify-between px-4 py-2 w-full mb-2">
+            <div className="flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -184,32 +143,154 @@ export function DataTable<TData, TValue>({ columns, data, stats, period }: DataT
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                className="h-4 w-4 text-muted-foreground"
+                className="h-4 w-4 text-muted-foreground mr-2"
               >
                 <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
               </svg>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pt-2">
-            <div className="text-xl font-bold">${processingFeesTotal.toFixed(2)}</div>
-            {period === "three_month" && (
-              <p className={`text-xs ${processingFeesChange >= 0 ? "text-green-500" : "text-red-500"}`}>
-                {processingFeesChange >= 0 ? "+" + processingFeesChange : processingFeesChange}% from last 90
-                days
-              </p>
-            )}
-            {["week", "month", "year"].map(
-              (periodStr) =>
-                period === periodStr && (
-                  <p key={period} className={`text-xs ${processingFeesChange >= 0 ? "text-green-500" : "text-red-500"}`}>
-                    {processingFeesChange >= 0 ? "+" + processingFeesChange : processingFeesChange}% from
-                    last {period}
-                  </p>
-                ),
-            )}
-          </CardContent>
-        </Card>
-      </div>
+              <div>Processing Fees</div>
+            </div>
+            <div>
+              <div className="items-center">
+                <div className="text-lg font-bold">${processingFeesTotal.toFixed(2)}</div>
+              </div>
+            </div>
+          </Card>
+        </div>
+      ) : (
+        <div className="mb-4 grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <Card className="h-[105px]">
+            <CardHeader className="flex flex-col space-y-0 pb-0 pt-4">
+              <CardTitle className="flex flex-row items-center justify-between space-y-0 text-sm font-medium">
+                Violations
+                <IconGavel className="h-4 w-4 text-muted-foreground" />
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-2">
+              <div className="text-xl font-bold">{violationsCount}</div>
+              {period === "three_month" && (
+                <p className={`text-xs ${violationsCountChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                  {violationsCountChange >= 0 ? "+" + violationsCountChange : violationsCountChange}% from last 90 days
+                </p>
+              )}
+              {["week", "month", "year"].map(
+                (periodStr) =>
+                  period === periodStr && (
+                    <p key={period} className={`text-xs ${violationsCountChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                      {violationsCountChange >= 0 ? "+" + violationsCountChange : violationsCountChange}% from last {period}
+                    </p>
+                  ),
+              )}
+            </CardContent>
+          </Card>
+          <Card className="h-[105px]">
+            <CardHeader className="flex flex-col space-y-0 pb-0 pt-4">
+              <CardTitle className="flex flex-row items-center justify-between space-y-0 text-sm font-medium">
+                Violation Revenue
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  className="h-4 w-4 text-muted-foreground"
+                >
+                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                </svg>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-2">
+              <div className="text-xl font-bold">${violationRevenueTotal.toFixed(2)}</div>
+              {period === "three_month" && (
+                <p className={`text-xs ${violationRevenueChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                  {violationRevenueChange >= 0 ? "+" + violationRevenueChange : violationRevenueChange}% from last 90 days
+                </p>
+              )}
+              {["week", "month", "year"].map(
+                (periodStr) =>
+                  period === periodStr && (
+                    <p key={period} className={`text-xs ${violationRevenueChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                      {violationRevenueChange >= 0 ? "+" + violationRevenueChange : violationRevenueChange}% from last {period}
+                    </p>
+                  ),
+              )}
+            </CardContent>
+          </Card>
+          <Card className="h-[105px]">
+            <CardHeader className="flex flex-col space-y-0 pb-0 pt-4">
+              <CardTitle className="flex flex-row items-center justify-between space-y-0 text-sm font-medium">
+                Enforcement Comission
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  className="h-4 w-4 text-muted-foreground"
+                >
+                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                </svg>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-2">
+              <div className="text-xl font-bold">${enforcementCommissionTotal.toFixed(2)}</div>
+              {period === "three_month" && (
+                <p className={`text-xs ${enforcementCommissionChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                  {enforcementCommissionChange >= 0 ? "+" + enforcementCommissionChange : enforcementCommissionChange}% from last
+                  90 days
+                </p>
+              )}
+              {["week", "month", "year"].map(
+                (periodStr) =>
+                  period === periodStr && (
+                    <p key={period} className={`text-xs ${enforcementCommissionChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                      {enforcementCommissionChange >= 0 ? "+" + enforcementCommissionChange : enforcementCommissionChange}% from
+                      last {period}
+                    </p>
+                  ),
+              )}
+            </CardContent>
+          </Card>
+          <Card className="h-[105px]">
+            <CardHeader className="flex flex-col space-y-0 pb-0 pt-4">
+              <CardTitle className="flex flex-row items-center justify-between space-y-0 text-sm font-medium">
+                Processing Fees
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  className="h-4 w-4 text-muted-foreground"
+                >
+                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                </svg>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-2">
+              <div className="text-xl font-bold">${processingFeesTotal.toFixed(2)}</div>
+              {period === "three_month" && (
+                <p className={`text-xs ${processingFeesChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                  {processingFeesChange >= 0 ? "+" + processingFeesChange : processingFeesChange}% from last 90 days
+                </p>
+              )}
+              {["week", "month", "year"].map(
+                (periodStr) =>
+                  period === periodStr && (
+                    <p key={period} className={`text-xs ${processingFeesChange >= 0 ? "text-green-500" : "text-red-500"}`}>
+                      {processingFeesChange >= 0 ? "+" + processingFeesChange : processingFeesChange}% from last {period}
+                    </p>
+                  ),
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
       <div className="mb-2 rounded-md border">
         <Table>
           <TableHeader>

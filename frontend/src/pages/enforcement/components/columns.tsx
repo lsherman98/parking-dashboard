@@ -59,24 +59,24 @@ export const columns: ColumnDef<Violation>[] = [
     },
     enableSorting: true,
     enableHiding: true,
-    },
-    {
+  },
+  {
     accessorKey: "session_start",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Session Start" />,
     cell: ({ row }) => {
       const date = new Date(row.getValue("session_start"));
-      const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const formattedTime = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
       return <div className="w-auto">{formattedTime}</div>;
     },
     enableSorting: false,
     enableHiding: true,
-    },
-    {
+  },
+  {
     accessorKey: "session_end",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Session End" />,
     cell: ({ row }) => {
       const date = new Date(row.getValue("session_end"));
-      const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const formattedTime = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
       return <div className="w-auto">{formattedTime}</div>;
     },
     enableSorting: false,

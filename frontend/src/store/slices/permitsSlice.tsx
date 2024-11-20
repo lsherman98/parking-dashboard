@@ -7,7 +7,7 @@ export const fetchPermitDataThunk = createAsyncThunk("permits/fetchData", async 
   const { locationFilter, statusFilter } = state.permits;
   return await fetchPermitData({
     location: locationFilter,
-    statuses: statusFilter
+    statuses: statusFilter,
   });
 });
 
@@ -31,7 +31,7 @@ const initialState: PermitsState = {
       activePermits: 0,
       requestedPermits: 0,
       expiredPermits: 0,
-    }
+    },
   },
   loading: false,
   error: null,

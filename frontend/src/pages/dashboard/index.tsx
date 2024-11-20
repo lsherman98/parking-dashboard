@@ -20,26 +20,20 @@ import {
   setYearFilter,
 } from "@/store/slices/dashboardSlice";
 import { toast } from "sonner";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 export default function Dashboard() {
   const dispatch = useAppDispatch();
+  const isMobile = useBreakpoint();
 
-  const {
-    locationFilter,
-    weekFilter,
-    monthFilter,
-    yearFilter,
-    periodFilter,
-    rangeFilter,
-    data,
-    error,
-    loading,
-  } = useAppSelector((state) => state.dashboard);
-  const {statsData, dailyStatsData, revenueData, bookingsData, recentTransactionsData} = data;
+  const { locationFilter, weekFilter, monthFilter, yearFilter, periodFilter, rangeFilter, data, error, loading } = useAppSelector(
+    (state) => state.dashboard,
+  );
+  const { statsData, dailyStatsData, revenueData, bookingsData, recentTransactionsData } = data;
 
   const handleLocationChange = (location: string[]) => dispatch(setLocationFilter(location));
   const handlePeriodChange = (period: PeriodFilter) => {
-    dispatch(setPeriodFilter(period))
+    dispatch(setPeriodFilter(period));
   };
   const handleWeekChange = (week: string) => dispatch(setWeekFilter(week));
   const handleMonthChange = (month: string) => dispatch(setMonthFilter(month));
@@ -71,6 +65,7 @@ export default function Dashboard() {
     periodFilter,
     handlePeriodChange,
     loading,
+    isMobile,
   };
 
   const capitalizeString = (str: string) => {
@@ -108,7 +103,7 @@ export default function Dashboard() {
                 <RevenueChart {...dashboardChartProps} revenueChartData={revenueData} />
               </div>
               <div className="cols-span-2 grid grid-cols-1 gap-4">
-                <DailyStats data={dailyStatsData} />
+                <DailyStats data={dailyStatsData} isMobile={isMobile} />
                 <div className="h-[305px]">
                   <TransactionsTable data={recentTransactionsData} />
                 </div>

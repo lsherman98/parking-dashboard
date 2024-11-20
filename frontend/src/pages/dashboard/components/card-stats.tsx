@@ -155,7 +155,8 @@ export default function CardStats({ data, periodFilter }: any) {
             (period) =>
               periodFilter === period && (
                 <p key={period} className={`text-xs ${occupancyUtilizationChange >= 0 ? "text-green-500" : "text-red-500"}`}>
-                  {occupancyUtilizationChange >= 0 ? "+" + occupancyUtilizationChange : occupancyUtilizationChange}% from last {period}
+                  {occupancyUtilizationChange >= 0 ? "+" + occupancyUtilizationChange : occupancyUtilizationChange}% from last{" "}
+                  {period}
                 </p>
               ),
           )}

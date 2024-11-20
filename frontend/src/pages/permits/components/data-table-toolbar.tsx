@@ -17,9 +17,10 @@ import { database } from "@/data/database";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
+  isMobile: boolean;
 }
 
-export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>) {
+export function DataTableToolbar<TData>({ table, isMobile }: DataTableToolbarProps<TData>) {
   const dispatch = useAppDispatch();
 
   const { locationFilter, statusFilter, loading } = useAppSelector((state) => state.permits);
@@ -32,46 +33,82 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
 
   const handleRefresh = () => dispatch(fetchPermitDataThunk());
 
-  return (
-    <div className="flex flex-wrap items-center gap-2 sm:my-4">
-      <AddPermitDialog />
-      <Input
-        placeholder="Search"
-        value={table.getState().globalFilter ?? ""}
-        onChange={(event) => table.setGlobalFilter(event.target.value)}
-        className="h-8 w-[150px] lg:w-[175px]"
-        disabled={loading}
-      />
-      <MultiSelect
-        options={database.locations.map((location) => ({ label: location.location_code, value: location.location_code }))}
-        onValueChange={handleLocationChange}
-        defaultValue={locationFilter}
-        placeholder="Locations"
-        variant="inverted"
-        animation={2}
-        maxCount={3}
-        className="min-h-9 w-auto min-w-24 shadow-none"
-        disabled={loading}
-      />
-      {table.getColumn("status") && (
-        <DataTableFacetedFilter
-          column={table.getColumn("status")}
-          title="Status"
-          options={statuses}
-          onSelectionChange={handleStatusChange}
+  if (isMobile) {
+    return (
+      <div className="flex flex-wrap items-center gap-2 mb-4">
+        <AddPermitDialog isMobile={isMobile} />
+        <Input
+          placeholder="Search"
+          value={table.getState().globalFilter ?? ""}
+          onChange={(event) => table.setGlobalFilter(event.target.value)}
+          className="h-8 w-[67%]"
           disabled={loading}
         />
-      )}
-      <IconRefresh
-        size={24}
-        onClick={handleRefresh}
-        className={`${loading ? "animate-[spin_1s_linear_infinite_reverse] cursor-not-allowed opacity-50" : "cursor-pointer"}`}
-      />
-      <div className="xl:flex-grow"></div>
-      <DataTableViewOptions table={table} />
-      <Button size="sm" className="h-8" variant="secondary">
-        Download Report
-      </Button>
-    </div>
-  );
+        <MultiSelect
+          options={database.locations.map((location) => ({ label: location.location_code, value: location.location_code }))}
+          onValueChange={handleLocationChange}
+          defaultValue={locationFilter}
+          placeholder="Locations"
+          variant="inverted"
+          animation={2}
+          maxCount={3}
+          className="min-h-9 w-[45%] min-w-24 shadow-none"
+          disabled={loading}
+        />
+        {table.getColumn("status") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("status")}
+            title="Status"
+            options={statuses}
+            onSelectionChange={handleStatusChange}
+            disabled={loading}
+            className="w-[45%]"
+          />
+        )}
+      </div>
+    );
+  } else {
+    return (
+      <div className="flex flex-wrap items-center gap-2 sm:my-4">
+        <AddPermitDialog isMobile={isMobile} />
+        <Input
+          placeholder="Search"
+          value={table.getState().globalFilter ?? ""}
+          onChange={(event) => table.setGlobalFilter(event.target.value)}
+          className="h-8 w-[150px] lg:w-[175px]"
+          disabled={loading}
+        />
+        <MultiSelect
+          options={database.locations.map((location) => ({ label: location.location_code, value: location.location_code }))}
+          onValueChange={handleLocationChange}
+          defaultValue={locationFilter}
+          placeholder="Locations"
+          variant="inverted"
+          animation={2}
+          maxCount={3}
+          className="min-h-9 w-auto min-w-24 shadow-none"
+          disabled={loading}
+        />
+        {table.getColumn("status") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("status")}
+            title="Status"
+            options={statuses}
+            onSelectionChange={handleStatusChange}
+            disabled={loading}
+          />
+        )}
+        <IconRefresh
+          size={24}
+          onClick={handleRefresh}
+          className={`${loading ? "animate-[spin_1s_linear_infinite_reverse] cursor-not-allowed opacity-50" : "cursor-pointer"}`}
+        />
+        <div className="xl:flex-grow"></div>
+        <DataTableViewOptions table={table} />
+        <Button size="sm" className="h-8" variant="secondary">
+          Download Report
+        </Button>
+      </div>
+    );
+  }
 }

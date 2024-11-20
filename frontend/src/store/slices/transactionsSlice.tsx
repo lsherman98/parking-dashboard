@@ -90,7 +90,7 @@ export const transactionsSlice = createSlice({
     },
     setStatusFilter: (state, action: PayloadAction<string[]>) => {
       state.statusFilter = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -109,7 +109,14 @@ export const transactionsSlice = createSlice({
   },
 });
 
-export const { setLocationFilter, setWeekFilter, setMonthFilter, setYearFilter, setRangeFilter, setPeriodFilter, setStatusFilter } =
-  transactionsSlice.actions;
+export const {
+  setLocationFilter,
+  setWeekFilter,
+  setMonthFilter,
+  setYearFilter,
+  setRangeFilter,
+  setPeriodFilter,
+  setStatusFilter,
+} = transactionsSlice.actions;
 
 export default transactionsSlice.reducer;
