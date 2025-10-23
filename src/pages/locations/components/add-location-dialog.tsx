@@ -8,7 +8,7 @@ import { Switch } from "@/components/ui/switch";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { states } from "@/data";
+import { states } from "@/constants";
 import { Button } from "@/components/custom/button";
 import { Input } from "@/components/ui/input";
 

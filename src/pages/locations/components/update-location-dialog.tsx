@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createLocationFormSchema, CreateLocationFormSchema } from "../data/schema";
-import { states } from "@/data";
+import { states } from "@/constants";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/custom/button";
 import { useBreakpoint } from "@/hooks/useBreakpoint";

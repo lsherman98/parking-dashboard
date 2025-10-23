@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PeriodFilter } from "@/types";
 import { RootState } from "../store";
-import { currentMonth, currentWeek, currentYear } from "@/data";
-import { fetchReservationData } from "@/services/api/reservationsApi";
+import { currentMonth, currentWeek, currentYear } from "@/constants";
+import { fetchViolationData } from "@/services/api/violationsApi";
 
-export const fetchReservationDataThunk = createAsyncThunk("reservations/fetchData", async (_, { getState }) => {
+export const fetchViolationDataThunk = createAsyncThunk("violations/fetchData", async (_, { getState }) => {
   const state = getState() as RootState;
-  const { locationFilter, weekFilter, monthFilter, yearFilter, rangeFilter, periodFilter, statusFilter } = state.reservations;
-  return await fetchReservationData({
+  const { locationFilter, weekFilter, monthFilter, yearFilter, rangeFilter, periodFilter, statusFilter } = state.violations;
+  return await fetchViolationData({
     location: locationFilter,
     week: weekFilter,
     month: monthFilter,
@@ -18,7 +18,7 @@ export const fetchReservationDataThunk = createAsyncThunk("reservations/fetchDat
   });
 });
 
-interface ReservationsState {
+interface ViolationsState {
   locationFilter: string[];
   weekFilter: string;
   monthFilter: string;
@@ -34,7 +34,7 @@ interface ReservationsState {
   error: string | null;
 }
 
-const initialState: ReservationsState = {
+const initialState: ViolationsState = {
   locationFilter: [],
   weekFilter: currentWeek,
   monthFilter: currentMonth,
@@ -45,10 +45,14 @@ const initialState: ReservationsState = {
   data: {
     tableData: [],
     stats: {
-      reservationsCount: 0,
-      occupancy: 0,
-      reservationCountChange: 0,
-      occupancyChange: 0,
+      violationsCount: 0,
+      violationRevenueTotal: 0,
+      enforcementCommissionTotal: 0,
+      processingFeesTotal: 0,
+      violationsCountChange: 0,
+      violationRevenueChange: 0,
+      enforcementCommissionChange: 0,
+      processingFeesChange: 0,
     },
   },
   loading: false,
@@ -60,8 +64,8 @@ export interface SerializableDateRange {
   to?: string;
 }
 
-export const reservationsSlice = createSlice({
-  name: "reservations",
+export const violationsSlice = createSlice({
+  name: "violations",
   initialState,
   reducers: {
     setLocationFilter: (state, action: PayloadAction<string[]>) => {
@@ -88,15 +92,15 @@ export const reservationsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchReservationDataThunk.pending, (state) => {
+      .addCase(fetchViolationDataThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchReservationDataThunk.fulfilled, (state, action) => {
+      .addCase(fetchViolationDataThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload;
       })
-      .addCase(fetchReservationDataThunk.rejected, (state, action) => {
+      .addCase(fetchViolationDataThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Failed to fetch data";
       });
@@ -111,6 +115,6 @@ export const {
   setRangeFilter,
   setPeriodFilter,
   setStatusFilter,
-} = reservationsSlice.actions;
+} = violationsSlice.actions;
 
-export default reservationsSlice.reducer;
+export default violationsSlice.reducer;

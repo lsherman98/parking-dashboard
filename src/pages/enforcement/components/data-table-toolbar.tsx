@@ -12,7 +12,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectI
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect } from "react";
 import { Input } from "@/components/ui/input";
-import { weeks, years } from "@/data";
+import { weeks, years } from "@/constants";
 import { DateRange } from "react-day-picker";
 import { PeriodFilter } from "@/types";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";

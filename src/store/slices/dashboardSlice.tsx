@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PeriodFilter } from "@/types";
 import { RootState } from "../store";
 import { fetchDashboardData } from "@/services/api/dashboardApi";
-import { currentMonth, currentWeek, currentYear } from "@/data";
+import { currentMonth, currentWeek, currentYear } from "@/constants";
 
 export const fetchDashboardDataThunk = createAsyncThunk("dashboard/fetchData", async (_, { getState }) => {
   const state = getState() as RootState;

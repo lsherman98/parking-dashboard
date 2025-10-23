@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
-import GeneralError from "./pages/errors/general-error";
-import NotFoundError from "./pages/errors/not-found-error";
-import MaintenanceError from "./pages/errors/maintenance-error";
+import GeneralError from "./pages/errors/general-error.tsx";
+import NotFoundError from "./pages/errors/not-found-error.tsx";
+import MaintenanceError from "./pages/errors/maintenance-error.tsx";
 import UnauthorisedError from "./pages/errors/unauthorised-error.tsx";
 
 const router = createBrowserRouter([
@@ -9,7 +9,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     lazy: async () => {
-      const AppShell = await import("./components/app-shell");
+      const AppShell = await import("./components/app-shell.tsx");
       return { Component: AppShell.default };
     },
     errorElement: <GeneralError />,
@@ -17,43 +17,43 @@ const router = createBrowserRouter([
       {
         path: "/",
         lazy: async () => ({
-          Component: (await import("./pages/dashboard")).default,
+          Component: (await import("./pages/dashboard/index.tsx")).default,
         }),
       },
       {
         path: "dashboard",
         lazy: async () => ({
-          Component: (await import("./pages/dashboard")).default,
+          Component: (await import("./pages/dashboard/index.tsx")).default,
         }),
       },
       {
         path: "transactions",
         lazy: async () => ({
-          Component: (await import("./pages/transactions")).default,
+          Component: (await import("./pages/transactions/index.tsx")).default,
         }),
       },
       {
         path: "enforcement",
         lazy: async () => ({
-          Component: (await import("./pages/enforcement")).default,
+          Component: (await import("./pages/enforcement/index.tsx")).default,
         }),
       },
       {
         path: "locations",
         lazy: async () => ({
-          Component: (await import("./pages/locations")).default,
+          Component: (await import("./pages/locations/index.tsx")).default,
         }),
       },
       {
         path: "permits",
         lazy: async () => ({
-          Component: (await import("./pages/permits")).default,
+          Component: (await import("./pages/permits/index.tsx")).default,
         }),
       },
       {
         path: "reservations",
         lazy: async () => ({
-          Component: (await import("./pages/reservations")).default,
+          Component: (await import("./pages/reservations/index.tsx")).default,
         }),
       },
       // {

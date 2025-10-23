@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PeriodFilter } from "@/types";
 import { RootState } from "../store";
-import { currentMonth, currentWeek, currentYear } from "@/data";
-import { fetchViolationData } from "@/services/api/violationsApi";
+import { currentMonth, currentWeek, currentYear } from "@/constants";
+import { fetchTransactionData } from "@/services/api/transactionsApi";
 
-export const fetchViolationDataThunk = createAsyncThunk("violations/fetchData", async (_, { getState }) => {
+export const fetchTransactionDataThunk = createAsyncThunk("transactions/fetchData", async (_, { getState }) => {
   const state = getState() as RootState;
-  const { locationFilter, weekFilter, monthFilter, yearFilter, rangeFilter, periodFilter, statusFilter } = state.violations;
-  return await fetchViolationData({
+  const { locationFilter, weekFilter, monthFilter, yearFilter, rangeFilter, periodFilter, statusFilter } = state.transactions;
+  return await fetchTransactionData({
     location: locationFilter,
     week: weekFilter,
     month: monthFilter,
@@ -18,7 +18,7 @@ export const fetchViolationDataThunk = createAsyncThunk("violations/fetchData", 
   });
 });
 
-interface ViolationsState {
+interface TransactionsState {
   locationFilter: string[];
   weekFilter: string;
   monthFilter: string;
@@ -34,7 +34,7 @@ interface ViolationsState {
   error: string | null;
 }
 
-const initialState: ViolationsState = {
+const initialState: TransactionsState = {
   locationFilter: [],
   weekFilter: currentWeek,
   monthFilter: currentMonth,
@@ -45,10 +45,12 @@ const initialState: ViolationsState = {
   data: {
     tableData: [],
     stats: {
+      transactionsCount: 0,
       violationsCount: 0,
-      violationRevenueTotal: 0,
-      enforcementCommissionTotal: 0,
-      processingFeesTotal: 0,
+      violationRevenue: 0,
+      enforcementCommission: 0,
+      processingFees: 0,
+      transactionCountChange: 0,
       violationsCountChange: 0,
       violationRevenueChange: 0,
       enforcementCommissionChange: 0,
@@ -64,8 +66,8 @@ export interface SerializableDateRange {
   to?: string;
 }
 
-export const violationsSlice = createSlice({
-  name: "violations",
+export const transactionsSlice = createSlice({
+  name: "transactions",
   initialState,
   reducers: {
     setLocationFilter: (state, action: PayloadAction<string[]>) => {
@@ -92,15 +94,15 @@ export const violationsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchViolationDataThunk.pending, (state) => {
+      .addCase(fetchTransactionDataThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchViolationDataThunk.fulfilled, (state, action) => {
+      .addCase(fetchTransactionDataThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload;
       })
-      .addCase(fetchViolationDataThunk.rejected, (state, action) => {
+      .addCase(fetchTransactionDataThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Failed to fetch data";
       });
@@ -115,6 +117,6 @@ export const {
   setRangeFilter,
   setPeriodFilter,
   setStatusFilter,
-} = violationsSlice.actions;
+} = transactionsSlice.actions;
 
-export default violationsSlice.reducer;
+export default transactionsSlice.reducer;
