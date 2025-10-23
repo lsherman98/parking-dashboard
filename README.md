@@ -1,13 +1,13 @@
 # Parking Dashboard
 
-A modern parking management dashboard built with React, TypeScript, and Vite.
+A modern parking management dashboard built with React and TypeScript.
 
 ## Getting Started
 
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/lsherman98/ParkingDashboard/
 cd parking-dashboard
 ```
 
@@ -16,7 +16,6 @@ cd parking-dashboard
 Navigate to the frontend directory and install the required packages:
 
 ```bash
-cd frontend
 pnpm install
 ```
 
@@ -27,8 +26,6 @@ Start the development server:
 ```bash
 pnpm dev
 ```
-
-The application will be available at `http://localhost:5173` (default Vite port).
 
 ## Project Structure
 
